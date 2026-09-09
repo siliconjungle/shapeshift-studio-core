@@ -1,0 +1,87 @@
+{
+  "name": "@shapeshift-labs/studio-core",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Private shared animation, illustrated rendering and JSON entity definitions for Shapeshift Studio and game runtimes.",
+  "license": "UNLICENSED",
+  "sideEffects": false,
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json",
+    "./gameplay-effects/definitions": "./src/gameplay-effects/definitions.js",
+    "./authoring/appearance": "./src/puppet-studio/authoring/appearance.js",
+    "./authoring/easing": "./src/puppet-studio/authoring/easing.js",
+    "./authoring/presentation-schema": "./src/puppet-studio/authoring/presentation-schema.js",
+    "./authoring/resolved-channels": "./src/puppet-studio/authoring/resolved-channels.js",
+    "./entities/commands": "./src/puppet-studio/entities/commands.js",
+    "./entities/definitions": "./src/puppet-studio/entities/definitions.js",
+    "./fx/frames": "./src/puppet-studio/fx/frames.js",
+    "./fx/math": "./src/puppet-studio/fx/math.js",
+    "./fx/motion": "./src/puppet-studio/fx/motion.js",
+    "./fx/particles": "./src/puppet-studio/fx/particles.js",
+    "./fx/presentation": "./src/puppet-studio/fx/presentation.js",
+    "./joint-transforms": "./src/puppet-studio/joint-transforms.js",
+    "./lighting-state": "./src/puppet-studio/lighting-state.js",
+    "./motion-tools/core": "./src/puppet-studio/motion-tools/core.js",
+    "./motion-tools/scene-layers": "./src/puppet-studio/motion-tools/scene-layers.js",
+    "./references/catalog": "./src/puppet-studio/references/catalog.js",
+    "./scene3d/animation": "./src/puppet-studio/scene3d/animation.js",
+    "./scene3d/core/action-machine": "./src/puppet-studio/scene3d/core/action-machine.js",
+    "./scene3d/core/action-presenter": "./src/puppet-studio/scene3d/core/action-presenter.js",
+    "./scene3d/core/audio": "./src/puppet-studio/scene3d/core/audio.js",
+    "./scene3d/core/camera-motion": "./src/puppet-studio/scene3d/core/camera-motion.js",
+    "./scene3d/core/composition": "./src/puppet-studio/scene3d/core/composition.js",
+    "./scene3d/core/controller-placement": "./src/puppet-studio/scene3d/core/controller-placement.js",
+    "./scene3d/core/deformation": "./src/puppet-studio/scene3d/core/deformation.js",
+    "./scene3d/core/expression": "./src/puppet-studio/scene3d/core/expression.js",
+    "./scene3d/core/facial-animation": "./src/puppet-studio/scene3d/core/facial-animation.js",
+    "./scene3d/core/facial-control": "./src/puppet-studio/scene3d/core/facial-control.js",
+    "./scene3d/core/landmark-eye": "./src/puppet-studio/scene3d/core/landmark-eye.js",
+    "./scene3d/core/library-validation": "./src/puppet-studio/scene3d/core/library-validation.js",
+    "./scene3d/core/lighting-definition": "./src/puppet-studio/scene3d/core/lighting-definition.js",
+    "./scene3d/core/lighting-glsl": "./src/puppet-studio/scene3d/core/lighting-glsl.js",
+    "./scene3d/core/materials": "./src/puppet-studio/scene3d/core/materials.js",
+    "./scene3d/core/mirroring": "./src/puppet-studio/scene3d/core/mirroring.js",
+    "./scene3d/core/motion": "./src/puppet-studio/scene3d/core/motion.js",
+    "./scene3d/core/painted-ground": "./src/puppet-studio/scene3d/core/painted-ground.js",
+    "./scene3d/core/portable": "./src/puppet-studio/scene3d/core/portable.js",
+    "./scene3d/core/procedural-effects": "./src/puppet-studio/scene3d/core/procedural-effects.js",
+    "./scene3d/core/renderer": "./src/puppet-studio/scene3d/core/renderer.js",
+    "./scene3d/core/shape-shadow": "./src/puppet-studio/scene3d/core/shape-shadow.js",
+    "./scene3d/core/surface-contact": "./src/puppet-studio/scene3d/core/surface-contact.js",
+    "./scene3d/core/texture-upload": "./src/puppet-studio/scene3d/core/texture-upload.js",
+    "./scene3d/core/uniforms": "./src/puppet-studio/scene3d/core/uniforms.js",
+    "./scene3d/core/vector-animation": "./src/puppet-studio/scene3d/core/vector-animation.js",
+    "./scene3d/core/vector-art": "./src/puppet-studio/scene3d/core/vector-art.js",
+    "./scene3d/core/vector-effects": "./src/puppet-studio/scene3d/core/vector-effects.js",
+    "./scene3d/core/vector-lods": "./src/puppet-studio/scene3d/core/vector-lods.js",
+    "./scene3d/core/vector-validation": "./src/puppet-studio/scene3d/core/vector-validation.js",
+    "./scene3d/schema": "./src/puppet-studio/scene3d/schema.js",
+    "./scene3d/subdivision": "./src/puppet-studio/scene3d/subdivision.js",
+    "./vector/model": "./src/puppet-studio/vector/model.js",
+    "./rendering/color-grading": "./src/rendering/color-grading.js"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siliconjungle/shapeshift-studio-core.git"
+  },
+  "peerDependencies": {
+    "three": "0.180.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "devDependencies": {
+    "three": "0.180.0"
+  }
+}

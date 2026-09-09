@@ -1,0 +1,10 @@
+// Shared deformation in world/gravity space. The bottom is fixed; the waist
+// profile has an analytic volume correction, rather than three scale factors.
+export const bodyGLSL=`
+uniform vec3 bodyCenter,bodyShape;uniform vec2 bodyBend;uniform float bodyHalf;
+vec3 deformBody(vec3 p){vec3 q=p-bodyCenter;float u=q.y/bodyHalf;float w=bodyShape.y;float a=1.-w;float volume=a*a+2.*a*w/3.+w*w/5.;float radial=(a+w*u*u)*inversesqrt(max(.1,bodyShape.x*volume));q.xz*=radial;q.xz+=bodyBend*bodyShape.z*bodyHalf*(u+1.)*(u+1.)*.25;q.y=(q.y+bodyHalf)*bodyShape.x-bodyHalf;return q+bodyCenter;}
+vec3 bodyNormal(vec3 n,vec3 p){vec3 q=p-bodyCenter;float u=q.y/bodyHalf,w=bodyShape.y,a=1.-w;float norm=inversesqrt(max(.1,bodyShape.x*(a*a+2.*a*w/3.+w*w/5.)));float r=(a+w*u*u)*norm,dr=2.*w*u*norm/bodyHalf;vec3 v=vec3(n.x/r,n.y,n.z/r);v.y=(n.y-(q.x*dr+bodyBend.x*bodyShape.z*(u+1.)*.5)*v.x-(q.z*dr+bodyBend.y*bodyShape.z*(u+1.)*.5)*v.z)/bodyShape.x;return normalize(v);}
+`;
+export function deformPoint(p,center,half,shape,bend={x:1,y:0}){const x=p.x-center.x,y=p.y-center.y,z=p.z-center.z,u=y/half,w=shape.y,a=1-w,normalization=1/Math.sqrt(shape.x*(a*a+2*a*w/3+w*w/5)),r=(a+w*u*u)*normalization;p.set(center.x+x*r+bend.x*shape.z*half*(u+1)**2*.25,center.y+(y+half)*shape.x-half,center.z+z*r+bend.y*shape.z*half*(u+1)**2*.25);return p;}
+export function deformNormal(n,p,center,half,shape,bend={x:1,y:0}){const x=p.x-center.x,y=p.y-center.y,z=p.z-center.z,u=y/half,w=shape.y,a=1-w,norm=1/Math.sqrt(shape.x*(a*a+2*a*w/3+w*w/5)),r=(a+w*u*u)*norm,dr=2*w*u*norm/half;const nx=n.x/r,nz=n.z/r,ny=(n.y-(x*dr+bend.x*shape.z*(u+1)*.5)*nx-(z*dr+bend.y*shape.z*(u+1)*.5)*nz)/shape.x;return n.set(nx,ny,nz).normalize();}
+export function undeformPoint(p,center,half,shape,bend={x:1,y:0}){const y=(p.y-center.y+half)/shape.x-half,u=y/half,w=shape.y,a=1-w,r=(a+w*u*u)/Math.sqrt(shape.x*(a*a+2*a*w/3+w*w/5)),shift=shape.z*half*(u+1)**2*.25;p.set(center.x+(p.x-center.x-bend.x*shift)/r,center.y+y,center.z+(p.z-center.z-bend.y*shift)/r);return p;}

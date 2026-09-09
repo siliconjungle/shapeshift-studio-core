@@ -1,0 +1,1 @@
+export function validateBezier(k){if(k.easing!=='bezier'&&k.bezier===undefined)return;const b=k.bezier;if(!Array.isArray(b)||b.length!==4||b.some(x=>!Number.isFinite(x))||b[0]<0||b[0]>1||b[2]<0||b[2]>1||Math.abs(b[1])>5||Math.abs(b[3])>5)throw Error('Bezier easing needs x handles within 0–1 and y handles within −5–5');}

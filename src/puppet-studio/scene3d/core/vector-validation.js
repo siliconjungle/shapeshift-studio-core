@@ -1,0 +1,14 @@
+const arities={var:[1,1],if:[3,3],add:[2,32],sub:[2,2],mul:[2,32],div:[2,2],pow:[2,2],min:[1,32],max:[1,32],sin:[1,1],cos:[1,1],exp:[1,1],sqrt:[1,1],abs:[1,1],eq:[2,2],gt:[2,2],gte:[2,2],lt:[2,2],not:[1,1],and:[1,32],or:[1,32],mod:[2,2],clamp:[3,3],smooth:[1,1],startsWith:[2,2]};
+const fail=m=>{throw Error('3D vector effect: '+m);},check=(v,m)=>{if(!v)fail(m);};
+const finite=(v,min,max)=>typeof v==='number'&&Number.isFinite(v)&&v>=min&&v<=max;
+const name=n=>typeof n==='string'&&/^[a-zA-Z_][a-zA-Z0-9_.-]{0,100}$/.test(n)&&!n.split('.').some(x=>['__proto__','constructor','prototype'].includes(x));
+const channels=new Set(['position.x','position.y','position.z','rotation.x','rotation.y','rotation.z','scale.x','scale.y','scale.z','alpha','time','flutter']);
+export function validateVectorEffect(d){
+ check(d&&typeof d==='object','missing definition');check(['surface','ground'].includes(d.projection),'invalid projection');check(finite(d.curveSegments,1,128),'invalid curve detail');check(finite(d.boundsTolerance,0,100),'invalid component tolerance');check(finite(d.surfaceOffset,0,.1),'invalid surface offset');check(finite(d.renderOrder,0,1000),'invalid render order');check(/^#[a-f\d]{6}$/i.test(d.color),'invalid color');
+ let budget=10000;
+ function expression(e,depth=0){check(--budget>=0&&depth<32,'animation graph is too complex');if(!Array.isArray(e)){check(typeof e==='boolean'||typeof e==='string'&&e.length<=200||finite(e,-1e10,1e10),'invalid expression literal');return;}const [op,...args]=e,range=arities[op];check(range&&args.length>=range[0]&&args.length<=range[1],'invalid expression operator '+op);if(op==='var')check(name(args[0]),'invalid variable path');else for(const a of args)expression(a,depth+1);}
+ function vars(entries){check(entries===undefined||Array.isArray(entries)&&entries.length<=128,'invalid variables');for(const entry of entries??[]){check(Array.isArray(entry)&&entry.length===2&&name(entry[0])&&!entry[0].includes('.'),'invalid variable');expression(entry[1]);}}
+ function tracks(entries,root=false){check(entries===undefined||entries&&typeof entries==='object'&&!Array.isArray(entries),'invalid tracks');for(const [channel,e]of Object.entries(entries??{})){check(channels.has(channel)&&(!root||channel.includes('.')),'invalid track '+channel);expression(e);}}
+ check(Array.isArray(d.buckets)&&d.buckets.length>0&&d.buckets.length<=128,'invalid layer buckets');for(const b of d.buckets){check(typeof b.id==='string'&&b.id.length>0&&b.id.length<=80,'invalid layer name');expression(b.when);}
+ const a=d.animation;check(a&&typeof a==='object','missing animation');expression(a.visible);vars(a.variables);vars(a.layerVariables);tracks(a.root,true);check(Array.isArray(a.layers)&&a.layers.length<=128,'invalid layer animation');for(const layer of a.layers){if(layer.when!==undefined)expression(layer.when);vars(layer.variables);tracks(layer.tracks);}return d;
+}
