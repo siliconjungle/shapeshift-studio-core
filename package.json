@@ -1,6 +1,6 @@
 {
   "name": "@shapeshift-labs/studio-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Private shared animation, illustrated rendering and JSON entity definitions for Shapeshift Studio and game runtimes.",
   "license": "UNLICENSED",
@@ -64,7 +64,13 @@
     "./scene3d/schema": "./src/puppet-studio/scene3d/schema.js",
     "./scene3d/subdivision": "./src/puppet-studio/scene3d/subdivision.js",
     "./vector/model": "./src/puppet-studio/vector/model.js",
-    "./rendering/color-grading": "./src/rendering/color-grading.js"
+    "./rendering/color-grading": "./src/rendering/color-grading.js",
+    "./body-joins": "./src/puppet-studio/body-joins.js",
+    "./body-join-profiles": "./src/puppet-studio/body-join-profiles.js",
+    "./body-join-render": "./src/puppet-studio/body-join-render.js",
+    "./body-join-seams": "./src/puppet-studio/body-join-seams.js",
+    "./scene3d/chamfer": "./src/puppet-studio/scene3d/chamfer.js",
+    "./scene3d/surface-detail": "./src/puppet-studio/scene3d/surface-detail.js"
   },
   "publishConfig": {
     "access": "restricted",
