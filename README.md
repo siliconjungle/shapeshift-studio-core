@@ -1,13 +1,82 @@
 # Shapeshift Studio Core
 
-Private, proprietary ES modules shared by Little Gods and Shapeshift Studio Web.
-
-The package owns JSON entity/component validation and commands, references, 2D transforms and procedural motion, IK, 3D scene definitions, illustrated materials/rendering, lighting, grading, facial animation, controllers, effects and procedural audio. Content and editor UI are supplied by consumers. Three.js is a peer dependency so consumers share one renderer instance.
+Reusable ES modules for illustrated rendering, animation, entity components, and data-defined behaviour. Editor UI, content, and application rules belong to consumers.
 
 Install with an npm account granted access: `npm install @shapeshift-labs/studio-core`.
 
-Use focused exports (for example `@shapeshift-labs/studio-core/fx/motion`, `@shapeshift-labs/studio-core/entities/definitions`, `@shapeshift-labs/studio-core/scene3d/core/renderer`) so bundlers include only the modules used. Module exports are listed explicitly in package.json. Filesystem layouts are private; use the exported module paths.
+Use focused exports such as `@shapeshift-labs/studio-core/entities/world`, `@shapeshift-labs/studio-core/entities/definitions`, and `@shapeshift-labs/studio-core/scene3d/core/renderer`. Supported exports are listed in `package.json`; internal filesystem paths are private. Three.js is a peer dependency so consumers share one renderer instance.
 
-The package does not include artwork, demo scenes, secrets, generated bundles, browser UI or village-specific rules. Browser code can be inspected by players; the private repository and restricted npm access control source distribution, not visibility of executed JavaScript.
+Entity components describe application-defined data. State machines coordinate component operations, events, and presentation through explicit bindings. Named attachment points connect effects to transforms without prescribing anatomy or gameplay meaning. Application-specific vocabulary belongs in authored schemas and recipes.
 
-Body joins are opt-in. `body-joins` exports validated authoring commands, pose evaluation, XY vertex deformation and a Three geometry binding. `body-join-profiles` matches silhouettes and colour transitions; `body-join-render` warps the source paint; `body-join-seams` preserves exterior ink while repairing internal cut lines. Canvas helpers require a browser; importing the math and geometry APIs is DOM-free. The game adapter composes seam repairs over the original vector geometry. `scene3d/chamfer` and `scene3d/surface-detail` provide the textured bevel and authored map primitives used by Studio pillars.
+Body joins are opt-in. `body-joins` provides pose evaluation, XY deformation, and Three geometry bindings. The profile, render, and seam modules align silhouettes and preserve source paint. Canvas helpers require a browser; math and geometry imports are DOM-free. Chamfer and surface-detail modules provide textured bevels and authored shading maps.
+
+This is proprietary software. Restricted distribution does not hide JavaScript executed in a consumer's browser.
+
+Run `npm test` to verify the shared behavioural contracts.
+
+## Behaviour and presentation
+
+`EntityWorld` owns component stores, queries, and entity lifetimes. `EntityRuntime` adds schema validation and state-scoped operations. Applications define every component name, field, and entity template; the runtime does not assign meaning to those values.
+
+```js
+import { EntityRuntime } from '@shapeshift-labs/studio-core/behaviour/runtime';
+
+const runtime = new EntityRuntime({
+  version: 1,
+  components: [{
+    id: 'Output',
+    schema: {
+      type: 'object', properties: { enabled: { type: 'boolean' } },
+      required: ['enabled'], additionalProperties: false
+    },
+    defaults: { enabled: false }
+  }],
+  entities: [{ id: 'device', name: 'Device', components: { Output: { enabled: false } } }]
+});
+const entity = runtime.create('device');
+const controller = runtime.attach(entity, {
+  initialState: 'idle',
+  states: {
+    idle: { on: { activate: [['enter', 'active']] } },
+    active: {
+      enter: [
+        ['command', 'component.set', { component: 'Output', path: 'enabled', value: true }],
+        ['schedule', 0.5, 'finish']
+      ],
+      exit: [['command', 'component.set', { component: 'Output', path: 'enabled', value: false }]],
+      on: { finish: [['enter', 'idle']] }
+    }
+  }
+});
+runtime.dispatch(controller, 'activate');
+runtime.step(0.1); // step duration must be between 0 and 0.25 seconds
+```
+
+A scene node selects `controller.library` and optionally `controller.entity`. Its presentation is independent JSON:
+
+```json
+{
+  "attachments": {
+    "outlet": { "position": [0, 0, 0.5], "direction": [0, 0, 1] }
+  },
+  "beams": [{
+    "id": "ray", "origin": "outlet",
+    "enabled": { "path": "components.Output.enabled" },
+    "length": 3, "width": 0.04, "color": "#7dd3fc"
+  }]
+}
+```
+
+Attachment names are arbitrary. Each can select another scene `node`; its position and direction follow that node's transforms, mirroring, and the host's deformation projector. Multiple beams may share an attachment. The presenter also accepts explicit pose paths, object/uniform bindings, and event mappings to procedural effects or audio. The `onContact` callback reports beam intersections; consumers decide what a contact means.
+
+State definitions support `enter`, `update`, `exit`, and `on`. `schedule` queues an event relative to the machine clock. Leaving a state cancels its timers and releases its temporary modifiers and state-owned entities. Destroying an entity cascades to its owned descendants and retires their controllers. Permanent writes use `component.set`; temporary numeric changes use `component.modify` with `add`, `multiply`, or `override`. Modifiers compose in priority/creation order over base values, so releasing one does not restore a stale copy of the data.
+
+Other operations are `component.add`, `component.remove`, `entity.create`, `entity.destroy`, and `query`. Operations default to the current entity but may specify `entity`. `entity.create` accepts a template ID, optional `ownerComponent`, and `lifetime: "state"` (default) or `"entity"`. Component ownership ends when that component is removed. Queries select required/excluded component sets and can filter with the numeric expression interpreter using `source` and `candidate` component values. When embedding arrays or a query predicate in machine instructions, wrap literal data as `["literal", value]` so it is not compiled as a machine expression.
+
+Machine expressions read `entity`, `components`, `parameters`, controller data, and event-local values. `command` stores a non-cleanup result in `result` for subsequent instructions in the same program. `emit` forwards an application-defined event through the runtime's host callback. There is no executable JavaScript in authored programs.
+
+`ActionMachine.save()` serializes its data, clock, and scheduled events. It does not serialize external component stores, host resources, or cleanup callbacks. To replay a whole scene, rebuild `EntityRuntime` from its library and replay its commands and elapsed time; both editor renderers follow that approach.
+
+## Compatibility
+
+Version 0.2 removes the fixed gameplay/presentation contracts and character-specific presenter events. Consumers must author their own component schemas and map controller output through `presentation.attachments`, `beams`, `bindings`, and `events`. State entry/exit programs belong inside each state. Illustrated shader inputs have neutral defaults; optional emphasis inputs are `irisEmission` and `surfaceFlash`. Existing projects using the removed contracts require a data migration in their consuming application.

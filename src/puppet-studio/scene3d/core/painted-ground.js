@@ -28,9 +28,9 @@ export async function loadPaintedGround(scene,{definition,inkMaterial,uniforms,r
   }finally{for(const t of next){t.image?.close?.();t.dispose();}pendingSize=0;}
  }
  await rasterize(definition.initialSize);
- const root=new T.Group();root.name='Generated dungeon floor';const material=inkMaterial({map:texture,heightMap:assets[0].height,roughnessMap:assets[0].roughness,environment:1});material.uniforms.bodyShape={value:new T.Vector3(1,0,0)};material.uniforms.bodyBend={value:new T.Vector2()};material.uniforms.hitFlash={value:0};material.uniforms.floorTint={value:new T.Vector3(1,1,1)};
+ const root=new T.Group();root.name='Generated ground';const material=inkMaterial({map:texture,heightMap:assets[0].height,roughnessMap:assets[0].roughness,environment:1});material.uniforms.bodyShape={value:new T.Vector3(1,0,0)};material.uniforms.bodyBend={value:new T.Vector2()};material.uniforms.surfaceFlash={value:0};material.uniforms.floorTint={value:new T.Vector3(1,1,1)};
  material.uniforms.floorVariants.value=1;for(const [i,suffix]of [[1,'B'],[2,'C']]){material.uniforms['map'+suffix].value=textures[i];material.uniforms['height'+suffix].value=assets[i].height;material.uniforms['roughness'+suffix].value=assets[i].roughness;}
- const mesh=new T.Mesh(new T.PlaneGeometry(definition.size,definition.size),material);mesh.name='Dungeon ground plane';mesh.rotation.x=-Math.PI/2;mesh.position.y=definition.y;root.add(mesh);scene.add(root);
+ const mesh=new T.Mesh(new T.PlaneGeometry(definition.size,definition.size),material);mesh.name='Ground plane';mesh.rotation.x=-Math.PI/2;mesh.position.y=definition.y;root.add(mesh);scene.add(root);
  const originalStone=new T.Color(definition.originalStone),tint=material.uniforms.floorTint.value;
  function updatePalette(){const c=uniforms.palette.value[0];tint.set(Math.pow(c.r/originalStone.r,definition.tintExponent),Math.pow(c.g/originalStone.g,definition.tintExponent),Math.pow(c.b/originalStone.b,definition.tintExponent));}
  function updateQuality(camera,renderer){if(!root.visible)return;const zoom=camera.zoom*renderer.getPixelRatio(),now=performance.now();if(Math.abs(zoom-lastZoom)>definition.zoomTolerance){lastZoom=zoom;zoomChangedAt=now;}

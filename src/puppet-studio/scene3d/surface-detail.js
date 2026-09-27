@@ -1,4 +1,4 @@
-// Optional authored maps augment the same multipass material as the Watcher.
+// Optional authored maps augment the same multipass material as illustrated objects.
 // Height remains available to its relief inspector; normals and occlusion can
 // also be supplied explicitly for assets with their own preparation pipeline.
 export function attachSurfaceDetail(material,{normalMap=null,occlusionMap=null}={}){

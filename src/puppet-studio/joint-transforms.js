@@ -1,4 +1,4 @@
-// Shared cutout keyframe math used by Studio and in-game god portraits.
+// Shared cutout keyframe math for nested artwork and animation.
 import {easing} from './fx/math.js';
 export const CHANNELS = ['x', 'y', 'rotation', 'scaleX', 'scaleY'];
 export const identity = () => ({x:0, y:0, rotation:0, scaleX:1, scaleY:1});
