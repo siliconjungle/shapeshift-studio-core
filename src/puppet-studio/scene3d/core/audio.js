@@ -1,5 +1,5 @@
 import {evaluate} from './expression.js';
-// Original synthesized stone / resonant-gold / energy sound palette.
+// Authored oscillator, noise, and envelope definitions supply the sound palette.
 // State-driven beds follow simulation progress instead of running ahead of it.
 export class ProceduralAudio {
  constructor(definition,context=null,{random=Math.random}={}){this.definition=structuredClone(definition);this.random=random;this.variants=new Map();this.lastCue=new Map();this.cast=null;this.context=context;this.volume=definition.volume;this.enabled=true;this.voices=new Set();this.beds=[];this.state='';this.events=[];if(context)this.connect();}

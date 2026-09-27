@@ -1,5 +1,5 @@
 // Editor reference metadata. Stored component values remain plain JSON IDs.
-export const REFERENCE_KINDS=['asset','rig','joint','clip','scene-node','entity','component','ability','effect','audio-library','library-source'];
+export const REFERENCE_KINDS=['asset','rig','joint','clip','scene-node','entity','component','audio-library','library-source'];
 export function validateReferenceSpec(spec){
  if(!spec||typeof spec!=='object'||Array.isArray(spec)||!REFERENCE_KINDS.includes(spec.kind))throw Error('Unknown reference kind');
  for(const key of Object.keys(spec))if(!['kind','dimension','category'].includes(key))throw Error('Unknown reference option '+key);
@@ -13,7 +13,6 @@ export function referenceCatalog(project,spec={}){
  const rows=[],add=(kind,items,dimension)=>{for(const item of items??[])rows.push({kind,id:item.id,name:item.name??item.title??item.id,...((dimension??item.dimension)?{dimension:dimension??item.dimension}:{}),...(item.category?{category:item.category}:{})})};
  add('asset',project.assets);add('rig',[{id:'$project',name:project.name+' · main rig'},...(project.puppetSources??[])]);add('joint',project.joints,2);add('clip',project.clips,2);add('clip',project.scene3d?.clips,3);add('scene-node',project.scene3d?.nodes,3);
  add('entity',project.entityDefinitions?.entities);add('component',project.entityDefinitions?.components);
- add('ability',project.abilities?.definitions?.filter(d=>d.type==='ability'));add('effect',project.abilities?.definitions?.filter(d=>d.type==='effect'));
  add('audio-library',Object.keys({...project.scene3d?.audioLibraries,...project.audioLibraries}).map(id=>({id,name:id})),2);add('audio-library',Object.keys(project.scene3d?.audioLibraries??{}).map(id=>({id,name:id})),3);
  add('library-source',project.library?.items);
  return rows.filter(r=>(!spec.kind||r.kind===spec.kind)&&(!spec.dimension||r.dimension===spec.dimension)&&(!spec.category||r.category===spec.category)).sort((a,b)=>a.name.localeCompare(b.name)||a.id.localeCompare(b.id)||((a.dimension??0)-(b.dimension??0)));

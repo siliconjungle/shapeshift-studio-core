@@ -45,7 +45,7 @@ export class ProjectedShapeShadow {
   const signature=values.join(',');if(signature===this.signature)return;this.signature=signature;
   const light=uniforms.light.value,center=uniforms.bodyCenter.value,height=Math.max(0,center.y-groundY),slope=1/Math.max(definition.minimumLightY,light.y);
   // Broad enough for rotated, bent and stretched silhouettes; no camera-sized
-  // target or rerasterisation on zoom. Penumbra grows gently as the boss lifts.
+  // target or rerasterisation on zoom. Penumbra grows gently as the object lifts.
   const span=definition.span+Math.max(0,slope-definition.wideLightSlope)*definition.wideLightSpan;
   this.projection.value.set(center.x-light.x*slope*height,center.z-light.z*slope*height,span,span);
   this.receiver.position.set(this.projection.value.x,groundY+definition.offset,this.projection.value.y);this.receiver.scale.set(span,span,1);

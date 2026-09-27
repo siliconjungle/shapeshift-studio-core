@@ -1,13 +1,23 @@
 import * as T from 'three';
 import {createUniforms} from './uniforms.js';
+// Neutral shader defaults; scenes only override the inputs they author.
+export function illustratedMaterialInputs() {
+ const float=value=>({type:'float',value}),vec2=(...value)=>({type:'vec2',value}),vec3=(...value)=>({type:'vec3',value});
+ return {depthScale:float(1),bodyBend:vec2(1,0),bodyShape:vec3(1,0,0),bodyCenter:vec3(0,0,0),bodyHalf:float(1),
+  energyColor:{type:'color',value:'#ffffff'},lightColor:{type:'color',value:'#ffffff'},irisEmission:float(0),surfaceFlash:float(0),
+  pixelRatio:float(1),relief:float(0),sheen:float(0),eyeBounds:{type:'vec4',value:[1,1,0,0]},eyeCenter:vec2(0,0),
+  eyeContour:{type:'vec2s',value:Array.from({length:64},()=>[0,0])},eyeTilt:float(0),pass:float(0),
+  palette:{type:'colors',value:['#475569','#94a3b8','#f8fafc','#0f172a']},bands:float(3),
+  light:{type:'vec3',value:[-1,1,1],normalize:true},time:float(0),gaze:vec2(0,0),blink:float(1),scribble:float(0),resolution:vec2(1,1),weight:float(1)};
+}
 // Exact illustrated surface/stroke kernels, instantiated with recipe inputs.
-export function createIllustratedMaterials({bodyGLSL,eyeGLSL,groundTileSize,inputs,shared={}}){
-const uniforms=createUniforms(inputs,shared);
-const vertex=eyeGLSL+bodyGLSL+`varying vec3 vNormal,vWorld,vSource,vRestWorld;varying vec2 vUv,vLocal;varying float vTone,vRole;attribute float paintRole,paintTone;attribute vec3 sourcePaint;varying vec3 vSourcePaint;uniform float front,iris;void main(){vec3 p=position;vec3 n=normal;
-if(iris>.5){p.xy=p.xy*vec2(.42,.39)+gaze+eyeCenter;vec2 q=unwarpEye(p.xy);p.z=frontDepth(q);n=frontNormal(q);}
-else if(front>.5){if(front<1.5){p.z=frontDepth(p.xy);n=frontNormal(p.xy);}if(p.z>1.149){p.xy=warpFront(p.xy);}}
+export function createIllustratedMaterials({bodyGLSL,eyeGLSL,groundTileSize,inputs={},shared={}}){
+const uniforms=createUniforms({...illustratedMaterialInputs(),...inputs},shared);uniforms.irisScale??={value:new T.Vector2(1,1)};
+const vertex=eyeGLSL+bodyGLSL+`varying vec3 vNormal,vWorld,vSource,vRestWorld;varying vec2 vUv,vLocal;varying float vTone,vRole;attribute float paintRole,paintTone;attribute vec3 sourcePaint;varying vec3 vSourcePaint;uniform float front,iris;uniform vec2 irisScale;void main(){vec3 p=position;vec3 n=normal;
+if(iris>.5){p.xy=p.xy*irisScale+gaze+eyeCenter;vec2 q=unwarpEye(p.xy);p.z=frontDepth(q);n=frontNormal(q);}
+else if(front>.5){if(front<1.5){p.z=frontDepth(p.xy);n=frontNormal(p.xy);}if(p.z>frontDepth(p.xy)-.001){p.xy=warpFront(p.xy);}}
 vSourcePaint=sourcePaint;vUv=uv;vSource=position;vLocal=p.xy;vTone=paintTone;vRole=paintRole;vRestWorld=(modelMatrix*vec4(p,1.)).xyz;vNormal=bodyNormal(normalize(mat3(modelMatrix)*n),vRestWorld);vWorld=deformBody(vRestWorld);gl_Position=projectionMatrix*viewMatrix*vec4(vWorld,1.);}`;
-const fragment=eyeGLSL+bodyGLSL+`precision highp float;uniform mat4 modelMatrix,projectionMatrix;uniform vec3 palette[4],light,lightColor,energyColor,floorTint;varying vec3 vSourcePaint;uniform float sourceColors;uniform float depthScale,pass,bands,role,tone,front,iris,usePaint,useMap;uniform sampler2D map,heightMap,roughnessMap,mapB,mapC,heightB,heightC,roughnessB,roughnessC;uniform float floorVariants;uniform float useDetail,relief,sheen,hitFlash,eyeCharge,environment;varying vec3 vNormal,vWorld,vSource,vRestWorld;varying vec2 vUv,vLocal;varying float vTone,vRole;
+const fragment=eyeGLSL+bodyGLSL+`precision highp float;uniform mat4 modelMatrix,projectionMatrix;uniform vec3 palette[4],light,lightColor,energyColor,floorTint;varying vec3 vSourcePaint;uniform float sourceColors;uniform float depthScale,pass,bands,role,tone,front,iris,usePaint,useMap;uniform sampler2D map,heightMap,roughnessMap,mapB,mapC,heightB,heightC,roughnessB,roughnessC;uniform float floorVariants;uniform float useDetail,relief,sheen,surfaceFlash,irisEmission,environment;varying vec3 vNormal,vWorld,vSource,vRestWorld;varying vec2 vUv,vLocal;varying float vTone,vRole;
 vec3 colour(float r){if(r<.5)return palette[0];if(r<1.5)return palette[1];if(r<2.5)return palette[2];return palette[3];}
 float edge(float d){float aa=max(fwidth(d),.0005);return 1.-smoothstep(-aa,aa,d);}
 // Unwrapped world coordinates preserve derivatives and tile scale while panning
@@ -55,10 +65,10 @@ if(useMap>.5){c=surfaceColour(detailUV()).rgb;if(environment>.5){
  float fleck=sin(vRestWorld.x*.61+vRestWorld.z*.31)*sin(vRestWorld.z*.47);
  c*=floorTint*(1.+mineral*.085+fleck*.025);
 }}
-c=mix(c,mix(palette[2],lightColor,.55),sheenAmount);if(iris>.5)c=mix(c,mix(energyColor,vec3(1.),.4),eyeCharge*.85);
+c=mix(c,mix(palette[2],lightColor,.55),sheenAmount);if(iris>.5)c=mix(c,mix(energyColor,vec3(1.),.4),irisEmission*.85);
 // Tint the illuminated bands; keep ambient shadow and black ink intact.
 vec3 lightTint=r>2.5?vec3(1.):mix(vec3(1.),lightColor,.32*band);
-gl_FragColor=vec4(mix(c*lighting*lightTint,palette[2],hitFlash),1.);
+gl_FragColor=vec4(mix(c*lighting*lightTint,palette[2],surfaceFlash),1.);
 #include <colorspace_fragment>
 }`;
 function inkMaterial({role=0,tone=1,front=0,iris=0,usePaint=0,map=null,heightMap=null,roughnessMap=null,environment=0}={}){const material=new T.ShaderMaterial({uniforms:{...uniforms,sourceColors:{value:0},floorVariants:{value:0},mapB:{value:null},mapC:{value:null},heightB:{value:null},heightC:{value:null},roughnessB:{value:null},roughnessC:{value:null},floorTint:{value:new T.Vector3(1,1,1)},environment:{value:environment},role:{value:role},tone:{value:tone},front:{value:front},iris:{value:iris},usePaint:{value:usePaint},useMap:{value:map?1:0},map:{value:map},heightMap:{value:heightMap},roughnessMap:{value:roughnessMap},useDetail:{value:heightMap?1:0}},vertexShader:vertex,fragmentShader:fragment,side:T.DoubleSide,depthWrite:!(usePaint||front===1||iris)});material.userData.vectorOverlay=!!(usePaint||front===1||iris);return material;}

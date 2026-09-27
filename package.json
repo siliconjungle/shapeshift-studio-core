@@ -1,8 +1,8 @@
 {
   "name": "@shapeshift-labs/studio-core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
-  "description": "Private shared animation, illustrated rendering and JSON entity definitions for Shapeshift Studio and game runtimes.",
+  "description": "Shared rendering, animation, entity components and data-defined behaviour for Shapeshift Studio and application runtimes.",
   "license": "UNLICENSED",
   "sideEffects": false,
   "files": [
@@ -13,10 +13,8 @@
   "exports": {
     ".": "./src/index.js",
     "./package.json": "./package.json",
-    "./gameplay-effects/definitions": "./src/gameplay-effects/definitions.js",
     "./authoring/appearance": "./src/puppet-studio/authoring/appearance.js",
     "./authoring/easing": "./src/puppet-studio/authoring/easing.js",
-    "./authoring/presentation-schema": "./src/puppet-studio/authoring/presentation-schema.js",
     "./authoring/resolved-channels": "./src/puppet-studio/authoring/resolved-channels.js",
     "./entities/commands": "./src/puppet-studio/entities/commands.js",
     "./entities/definitions": "./src/puppet-studio/entities/definitions.js",
@@ -70,7 +68,10 @@
     "./body-join-render": "./src/puppet-studio/body-join-render.js",
     "./body-join-seams": "./src/puppet-studio/body-join-seams.js",
     "./scene3d/chamfer": "./src/puppet-studio/scene3d/chamfer.js",
-    "./scene3d/surface-detail": "./src/puppet-studio/scene3d/surface-detail.js"
+    "./scene3d/surface-detail": "./src/puppet-studio/scene3d/surface-detail.js",
+    "./entities/world": "./src/entities/world.js",
+    "./scene3d/core/attachments": "./src/puppet-studio/scene3d/core/attachments.js",
+    "./behaviour/runtime": "./src/behaviour/runtime.js"
   },
   "publishConfig": {
     "access": "restricted",
