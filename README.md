@@ -80,3 +80,21 @@ Machine expressions read `entity`, `components`, `parameters`, controller data, 
 ## Compatibility
 
 Version 0.2 removes the fixed gameplay/presentation contracts and character-specific presenter events. Consumers must author their own component schemas and map controller output through `presentation.attachments`, `beams`, `bindings`, and `events`. State entry/exit programs belong inside each state. Illustrated shader inputs have neutral defaults; optional emphasis inputs are `irisEmission` and `surfaceFlash`. Existing projects using the removed contracts require a data migration in their consuming application.
+
+## Container liquid and recorded speech
+
+- `@shapeshift-labs/studio-core/illustration/container-liquid`: deterministic sealed
+  2D liquid surfaces, area-preserving fill, motion-driven slosh, settling, bubbles,
+  and repeatable forward/backward timeline sampling.
+- `.../illustration/tracks` and `.../illustration/effect-state`: keyed liquid fill
+  and colours, validated data/state bindings, and runtime property transitions.
+- `.../illustration/liquid-actions` and `.../illustration/liquid-audio`: colour
+  mixing/pouring helpers and procedural liquid sound definitions.
+- `@shapeshift-labs/studio-core/speech`: recorded-chunk placement, timed visemes,
+  blended facial transforms, mouth-artwork selection, amplitude envelopes,
+  validation, and authoring commands. `speechAt(project, clip, seconds)` samples
+  the same timeline a host uses for recorded audio playback.
+
+The liquid is a stylized sealed-container surface solver. Browser rendering,
+recorded-audio playback, authoring panels and runnable examples live in
+[Studio Web](https://github.com/siliconjungle/shapeshift-studio-web).

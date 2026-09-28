@@ -1,6 +1,6 @@
 {
   "name": "@shapeshift-labs/studio-core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "Shared rendering, animation, entity components and data-defined behaviour for Shapeshift Studio and application runtimes.",
   "license": "UNLICENSED",
@@ -71,7 +71,13 @@
     "./scene3d/surface-detail": "./src/puppet-studio/scene3d/surface-detail.js",
     "./entities/world": "./src/entities/world.js",
     "./scene3d/core/attachments": "./src/puppet-studio/scene3d/core/attachments.js",
-    "./behaviour/runtime": "./src/behaviour/runtime.js"
+    "./behaviour/runtime": "./src/behaviour/runtime.js",
+    "./speech": "./src/speech/index.js",
+    "./illustration/container-liquid": "./src/illustration/container-liquid.js",
+    "./illustration/liquid-actions": "./src/illustration/liquid-actions.js",
+    "./illustration/liquid-audio": "./src/illustration/liquid-audio.js",
+    "./illustration/tracks": "./src/illustration/tracks.js",
+    "./illustration/effect-state": "./src/illustration/effect-state.js"
   },
   "publishConfig": {
     "access": "restricted",
