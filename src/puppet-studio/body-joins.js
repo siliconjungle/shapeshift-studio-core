@@ -37,7 +37,7 @@ export function bodyJoinFrame(project,pose,profiles=new Map()){
  const active=project.joints.filter(j=>j.bodyJoin?.enabled&&j.bodyJoin.strength>0);if(!active.length)return new Map();
  const rest=restWorlds(project),result=new Map();
  for(const part of active){const join=part.bodyJoin,body=join.targetNode;
-  if(!pose.has(body)||!pose.has(part.id))continue;
+  if(!pose.has(body)||!pose.has(part.id)||pose.soloHidden?.has(body)||pose.soloHidden?.has(part.id))continue;
   const relative=multiply(inverse(rest.get(body)),rest.get(part.id));
   const delta=multiply(multiply(inverse(pose.get(body).world),pose.get(part.id).world),inverse(relative));
   const profile=join.matchEdges!==false?profiles.get(part.id):null;

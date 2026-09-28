@@ -1,0 +1,24 @@
+import cdt2d from 'cdt2d';
+const EPS=1e-9;
+export const cross=(a,b,c)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
+export const at=(v,i)=>v.slice(i*2,i*2+2);
+const edgeKey=(a,b)=>a<b?a+':'+b:b+':'+a;
+export function intersects(a,b,c,d){return cross(a,b,c)*cross(a,b,d)<-1e-18&&cross(c,d,a)*cross(c,d,b)<-1e-18;}
+export function insideTriangle(p,a,b,c){const v=[cross(a,b,p),cross(b,c,p),cross(c,a,p)];return v.every(x=>x>=-EPS)||v.every(x=>x<=EPS);}
+export function insideContour(p,vertices,contour){let inside=false;for(let i=0,j=contour.length-1;i<contour.length;j=i++){const a=at(vertices,contour[i]),b=at(vertices,contour[j]);if(Math.abs(cross(a,b,p))<EPS&&p[0]>=Math.min(a[0],b[0])-EPS&&p[0]<=Math.max(a[0],b[0])+EPS&&p[1]>=Math.min(a[1],b[1])-EPS&&p[1]<=Math.max(a[1],b[1])+EPS)return true;if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside;}
+export function triangulate(vertices,contour,edges=[]){
+ const n=vertices.length/2;if(!Number.isInteger(n)||n<3||n>256||vertices.some(v=>!Number.isFinite(v)||v<0||v>1))throw Error('Mesh: use 3–256 source vertices inside the image');if(!Array.isArray(contour)||contour.length<3||new Set(contour).size!==contour.length||contour.some(i=>!Number.isInteger(i)||i<0||i>=n))throw Error('Mesh: invalid contour');
+ for(let i=0;i<n;i++)for(let j=0;j<i;j++)if(Math.hypot(vertices[i*2]-vertices[j*2],vertices[i*2+1]-vertices[j*2+1])<1e-7)throw Error('Mesh: vertices must be distinct');
+ const boundary=contour.map((v,i)=>[v,contour[(i+1)%contour.length]]);for(let i=0;i<boundary.length;i++)for(let j=0;j<i;j++){const [a,b]=boundary[i],[c,d]=boundary[j];if(intersects(at(vertices,a),at(vertices,b),at(vertices,c),at(vertices,d)))throw Error('Mesh: contour must not cross itself');}
+ if(Array.from({length:n},(_,i)=>i).some(i=>!insideContour(at(vertices,i),vertices,contour)))throw Error('Mesh: interior vertices must lie inside the contour');
+ const signed=contour.reduce((sum,a,i)=>{const b=contour[(i+1)%contour.length];return sum+vertices[a*2]*vertices[b*2+1]-vertices[b*2]*vertices[a*2+1];},0);if(Math.abs(signed)<EPS)throw Error('Mesh: contour has no area');
+ const segments=new Map();for(const edge of [...boundary,...edges]){if(!Array.isArray(edge)||edge.length!==2||edge.some(i=>!Number.isInteger(i)||i<0||i>=n)||edge[0]===edge[1])throw Error('Mesh: choose two different vertices for an edge');const [a,b]=edge,line=Array.from({length:n},(_,i)=>i).filter(i=>i===a||i===b||Math.abs(cross(at(vertices,a),at(vertices,b),at(vertices,i)))<1e-12&&(vertices[i*2]-vertices[a*2])*(vertices[i*2]-vertices[b*2])+(vertices[i*2+1]-vertices[a*2+1])*(vertices[i*2+1]-vertices[b*2+1])<0).sort((i,j)=>Math.hypot(...at(vertices,i).map((x,k)=>x-vertices[a*2+k]))-Math.hypot(...at(vertices,j).map((x,k)=>x-vertices[a*2+k])));for(let i=1;i<line.length;i++){const u=line[i-1],v=line[i];segments.set(edgeKey(u,v),[u,v]);}}
+ const constraints=[...segments.values()];for(let i=0;i<constraints.length;i++)for(let j=0;j<i;j++)if(intersects(...constraints[i].map(i=>at(vertices,i)),...constraints[j].map(i=>at(vertices,i))))throw Error('Mesh: forced edges cannot cross the contour or each other');
+ // Internal seams are constraints, not holes. Classify faces against the outer
+ // contour explicitly instead of using parity across every constrained edge.
+ const points=Array.from({length:n},(_,i)=>at(vertices,i)),cells=cdt2d(points,constraints,{delaunay:true,interior:true,exterior:true}).filter(t=>insideContour([0,1].map(axis=>t.reduce((sum,i)=>sum+vertices[i*2+axis],0)/3),vertices,contour));
+ return cells.flatMap(t=>cross(...t.map(i=>at(vertices,i)))>0?t:[t[0],t[2],t[1]]);
+}
+
+export function gridMesh(columns=3,rows=3){if(!Number.isInteger(columns)||!Number.isInteger(rows)||columns<1||rows<1||(columns+1)*(rows+1)>256)throw Error('Mesh: grid supports up to 256 vertices');const vertices=[],contour=[],triangles=[];for(let y=0;y<=rows;y++)for(let x=0;x<=columns;x++)vertices.push(x/columns,y/rows);for(let x=0;x<=columns;x++)contour.push(x);for(let y=1;y<=rows;y++)contour.push(y*(columns+1)+columns);for(let x=columns-1;x>=0;x--)contour.push(rows*(columns+1)+x);for(let y=rows-1;y>0;y--)contour.push(y*(columns+1));for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){const a=y*(columns+1)+x,b=a+1,c=a+columns+1,d=c+1;triangles.push(a,b,d,a,d,c);}return{version:1,enabled:true,vertices,positions:[...vertices],contour,edges:[],triangles:triangulate(vertices,contour)};}
+export function triangleMatrix(source,target){const [a,b,c]=source,[p,q,r]=target,d=(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);if(Math.abs(d)<EPS)return null;const m=[((q[0]-p[0])*(c[1]-a[1])-(r[0]-p[0])*(b[1]-a[1]))/d,((q[1]-p[1])*(c[1]-a[1])-(r[1]-p[1])*(b[1]-a[1]))/d,((r[0]-p[0])*(b[0]-a[0])-(q[0]-p[0])*(c[0]-a[0]))/d,((r[1]-p[1])*(b[0]-a[0])-(q[1]-p[1])*(c[0]-a[0]))/d];return [...m,p[0]-m[0]*a[0]-m[2]*a[1],p[1]-m[1]*a[0]-m[3]*a[1]];}

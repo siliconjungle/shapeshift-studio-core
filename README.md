@@ -2,7 +2,7 @@
 
 Reusable ES modules for illustrated rendering, animation, entity components, and data-defined behaviour. Editor UI, content, and application rules belong to consumers.
 
-Install with an npm account granted access: `npm install @shapeshift-labs/studio-core`.
+Install from the public repository: `npm install github:siliconjungle/shapeshift-studio-core`. The existing npm distribution still requires an account granted package access.
 
 Use focused exports such as `@shapeshift-labs/studio-core/entities/world`, `@shapeshift-labs/studio-core/entities/definitions`, and `@shapeshift-labs/studio-core/scene3d/core/renderer`. Supported exports are listed in `package.json`; internal filesystem paths are private. Three.js is a peer dependency so consumers share one renderer instance.
 
@@ -98,3 +98,24 @@ Version 0.2 removes the fixed gameplay/presentation contracts and character-spec
 The liquid is a stylized sealed-container surface solver. Browser rendering,
 recorded-audio playback, authoring panels and runnable examples live in
 [Studio Web](https://github.com/siliconjungle/shapeshift-studio-web).
+
+## Animation and illustration toolkit (0.3)
+
+The public package includes the previously local tool implementations:
+
+- `procedural/*`: particles, constraints, collision, soft bodies, dynamic ink surfaces, locomotion, limb support, attachments, sprite binding and reusable procedural rigs.
+- `procedural3d/*`: terrain sampling, spatial gait planning and runtime movement.
+- `noodle/*`: continuous spine deformation, lag, overshoot, stretch and volume preservation for 2D and 3D.
+- `mesh` and `bone-binding`: deformable artwork meshes and weighted SVG/bone binding.
+- `constraints`, `constraints/solve2d`, `constraints/solve3d`: transform, distance, IK and path constraints with animated strength.
+- `joysticks`, `solos`, `draw-order`, `state-machine`: pose controls, drawing swaps, animated stacking and clip transitions.
+- `shape-lab/*`: implicit shapes, contour extraction and mesh generation.
+- `n-slicing`, `outline-recognition`, `vector/model`: resizable art, outline detection, animated path trimming and clipping.
+- `illustration/*`: page folds, contours, colour shifts, fluid effects, container liquid, effect bindings and liquid audio.
+- `speech`: recorded dialogue timing, visemes, coarticulation, envelope binding and drawing swaps.
+- `scene3d/regular-solid`, `scene3d/attachment-blend` and rendering modules: regular solids, attachment blending and illustrated shading.
+- `video-vectorizer`: browser-safe vector tracking and frame conversion primitives; `video-vectorizer/node` and `image-vectorizer/node`: optional native conversion pipelines.
+
+Node conversion uses optional native dependencies. Video conversion additionally requires `ffmpeg` and `ffprobe` on PATH. Browser rendering and the animation solvers do not require those executables. Import Node conversion through its explicit `/node` entry point.
+
+The matching editors, commands, examples and assets are in [Studio Web](https://github.com/siliconjungle/shapeshift-studio-web).

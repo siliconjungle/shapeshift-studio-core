@@ -1,0 +1,7 @@
+// General finite bend region. A zero-width region is a crease; nonzero width
+// distributes rotation over an arc without stretching the neutral surface.
+export function foldPoint(point,{angle=0,axis=0,offset=0,width=.4}={}){const c=Math.cos(axis),s=Math.sin(axis),along=point[0]*c+point[1]*s,d=-point[0]*s+point[1]*c-offset,z=point[2]??0;if(d<=0||Math.abs(angle)<1e-7)return [...point];let y,h,t;
+ if(width<1e-6){t=angle;y=d*Math.cos(t);h=d*Math.sin(t);}else{const a=Math.min(d,width);t=angle*a/width;const radius=width/angle;y=radius*Math.sin(t)+Math.max(0,d-width)*Math.cos(t);h=radius*(1-Math.cos(t))+Math.max(0,d-width)*Math.sin(t);}
+ y+=offset-z*Math.sin(t);h+=z*Math.cos(t);return[along*c-y*s,along*s+y*c,h];}
+export const foldGLSL=`vec3 foldRegion(vec3 p,vec4 f){float angle=f.x,c=cos(f.y),s=sin(f.y),a=p.x*c+p.y*s,d=-p.x*s+p.y*c-f.z;if(d<=0.||abs(angle)<.0000001)return p;float t,y,h;if(f.w<.000001){t=angle;y=d*cos(t);h=d*sin(t);}else{float u=min(d,f.w);t=angle*u/f.w;float r=f.w/angle;y=r*sin(t)+max(0.,d-f.w)*cos(t);h=r*(1.-cos(t))+max(0.,d-f.w)*sin(t);}y+=f.z-p.z*sin(t);h+=p.z*cos(t);return vec3(a*c-y*s,a*s+y*c,h);}`;
+export function validateFold(f){if(!f)return;for(const k of ['angle','axis','offset','width'])if(!Number.isFinite(f[k])||Math.abs(f[k])>10000)throw Error('Invalid bend region '+k);if(f.width<0||Math.abs(f.angle)>Math.PI*2)throw Error('Bend angle must be within a full turn and width nonnegative');}

@@ -1,6 +1,6 @@
 import {sampleKeys} from '../puppet-studio/vector/model.js';
 import {easeNames} from '../puppet-studio/fx/math.js';
-export const ILLUSTRATION_CHANNELS={'liquid.fill':[0,1],'liquid.color':'color','liquid.shadow':'color','liquid.highlight':'color'};
+export const ILLUSTRATION_CHANNELS={'liquid.fill':[0,1],'liquid.color':'color','liquid.shadow':'color','liquid.highlight':'color','colorShift.amount':[0,1],'colorShift.hue':[-360,360],'colorShift.color':'color'};
 export function validateIllustrationTracks(tracks=[],joints=[]){
  if(!Array.isArray(tracks)||tracks.length>1024)throw Error('Invalid illustration tracks');const seen=new Set();
  for(const t of tracks){const node=joints.find(j=>j.id===t.joint),range=ILLUSTRATION_CHANNELS[t.channel],id=t.joint+':'+t.channel;if(!node||!Object.hasOwn(ILLUSTRATION_CHANNELS,t.channel)||seen.has(id))throw Error('Invalid or duplicate illustration target');seen.add(id);

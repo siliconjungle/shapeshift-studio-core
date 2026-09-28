@@ -3,7 +3,12 @@ import * as T from 'three';import {FXAAShader} from 'three/addons/shaders/FXAASh
 const screenVertex=`varying vec2 uvv;void main(){uvv=uv;gl_Position=vec4(position.xy,0.,1.);}`;
 const screenFragment=`${gradingGLSL}
 precision highp float;uniform sampler2D colour,normalMap,depthMap,effectsMap;uniform vec2 resolution,depthRange;uniform float weight,scribble,view,pixelRatio,effectsEnabled,depthSpan,surfaceEdges;varying vec2 uvv;
-float occupied(vec2 p){return step(.5,texture2D(normalMap,p).a);}
+// Interpolate binary coverage, never the packed material IDs. This keeps the
+// silhouette smooth between mask pixels without introducing false face edges.
+float occupied(vec2 p){vec2 pixel=p*resolution-.5,f=fract(pixel),base=(floor(pixel)+.5)/resolution,texel=1./resolution;
+ float a=step(.5,texture2D(normalMap,base).a),b=step(.5,texture2D(normalMap,base+vec2(texel.x,0.)).a),c=step(.5,texture2D(normalMap,base+vec2(0.,texel.y)).a),d=step(.5,texture2D(normalMap,base+texel).a);
+ return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);
+}
 void main(){vec3 c=texture2D(colour,uvv).rgb;vec4 center=texture2D(normalMap,uvv);float depth=texture2D(depthMap,uvv).x;float ink=0.;float pressure=1.+scribble*(.18*sin(gl_FragCoord.x*.105+gl_FragCoord.y*.071)+.12*sin(gl_FragCoord.y*.24));float radius=max(.0,weight*pixelRatio*pressure);float centerOn=step(.5,center.a);
 // Background only needs occupancy; painted faces do not need terrain depth
 // differences. Preserve the same twelve taps and pressure-shaped contour.
