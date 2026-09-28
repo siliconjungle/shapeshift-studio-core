@@ -2,6 +2,22 @@
 
 Reusable ES modules for illustrated rendering, animation, entity components, and data-defined behaviour. Editor UI, content, and application rules belong to consumers.
 
+## Discover the tools
+
+The [feature catalogue](docs/features.md) covers Studio Core and Web, including requirements, limits, imports and agent recipes. The same data is available without a browser or renderer:
+
+```js
+import {queryCatalog, expandRecipe, commandInfo} from '@shapeshift-labs/studio-core/catalog';
+console.log(queryCatalog({query: 'liquid', scope: 'core'}));
+console.log(queryCatalog({id: 'liquid'}));
+console.log(expandRecipe('add-liquid', {joint: 'bottle', fill: 0.7}));
+console.log(commandInfo('illustration.liquid'));
+```
+
+For raw JSON, use the `@shapeshift-labs/studio-core/catalog.json` export. Recipes produce Web live-API requests; discovering or expanding them never executes edits. Their JSON Schemas validate recipe inputs, while the editor validates project IDs and contextual constraints on dispatch.
+
+Maintain `src/catalog/features.json` and run `npm run catalog:docs` to regenerate the guide. Coverage tests prevent focused exports from being added without a feature entry.
+
 Install from the public repository: `npm install github:siliconjungle/shapeshift-studio-core`. The existing npm distribution still requires an account granted package access.
 
 Use focused exports such as `@shapeshift-labs/studio-core/entities/world`, `@shapeshift-labs/studio-core/entities/definitions`, and `@shapeshift-labs/studio-core/scene3d/core/renderer`. Supported exports are listed in `package.json`; internal filesystem paths are private. Three.js is a peer dependency so consumers share one renderer instance.

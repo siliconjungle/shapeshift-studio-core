@@ -1,6 +1,6 @@
 {
   "name": "@shapeshift-labs/studio-core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "Shared rendering, animation, entity components and data-defined behaviour for Shapeshift Studio and application runtimes.",
   "license": "UNLICENSED",
@@ -125,7 +125,9 @@
     "./noodle/model": "./src/puppet-studio/noodle/model.js",
     "./noodle/deform": "./src/puppet-studio/noodle/deform.js",
     "./scene3d/regular-solid": "./src/puppet-studio/scene3d/regular-solid.js",
-    "./video-vectorizer/silhouette-ink": "./src/video-vectorizer/silhouette-ink.js"
+    "./video-vectorizer/silhouette-ink": "./src/video-vectorizer/silhouette-ink.js",
+    "./catalog": "./src/catalog/index.js",
+    "./catalog.json": "./src/catalog/features.json"
   },
   "publishConfig": {
     "access": "restricted",
@@ -140,7 +142,8 @@
   },
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "catalog:docs": "node scripts/catalog-docs.mjs"
   },
   "devDependencies": {
     "three": "0.180.0"

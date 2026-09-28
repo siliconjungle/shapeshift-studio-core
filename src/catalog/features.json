@@ -1,0 +1,5683 @@
+{
+  "version": 1,
+  "title": "Shapeshift Studio feature catalogue",
+  "description": "Shared discovery data for Studio Core, the web editor, offline CLI, live API and generated documentation.",
+  "schemaNote": "Recipe inputSchema values are JSON Schema 2020-12. They describe validated recipe inputs; the advanced command index is an inventory, not a full schema for every project payload.",
+  "features": [
+    {
+      "id": "projects",
+      "category": "Getting started",
+      "title": "Projects and portable files",
+      "description": "Create projects, edit joints and clips, save portable JSON, and undo or redo changes.",
+      "tags": [
+        "save",
+        "load",
+        "undo",
+        "redo",
+        "rig"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "asset.add",
+        "asset.remove",
+        "asset.update",
+        "clip.add",
+        "clip.bake",
+        "clip.duplicate",
+        "clip.remove",
+        "clip.update",
+        "joint.add",
+        "joint.ik",
+        "joint.origin",
+        "joint.remove",
+        "joint.rename",
+        "joint.update",
+        "project.patch",
+        "project.rename",
+        "project.replace"
+      ],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/live-api.md",
+      "examples": [],
+      "recipes": [
+        "rename-project"
+      ]
+    },
+    {
+      "id": "headless",
+      "category": "Getting started",
+      "title": "Agent API and CLI",
+      "description": "Inspect a live editor, discover controls, apply atomic command batches and export artifacts through the same project store.",
+      "tags": [
+        "codex",
+        "automation",
+        "headless",
+        "agent",
+        "api"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Discovery works offline. Editing requires npm start and an open editor tab."
+      ],
+      "limitations": [
+        "The CLI targets an existing browser session; choose --session when several tabs are open."
+      ],
+      "commands": [],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/live-api.md",
+      "examples": [],
+      "codeExamples": [
+        {
+          "language": "sh",
+          "title": "Discover offline, then connect",
+          "code": "npm run studio -- catalog\nnpm run studio -- catalog --query liquid\nnpm run studio -- catalog liquid\nnpm run studio -- recipe add-liquid --json '{\"joint\":\"body\",\"fill\":0.7}'\nnpm run studio -- sessions\nnpm run studio -- capabilities"
+        }
+      ],
+      "recipes": [
+        "inspect-project"
+      ]
+    },
+    {
+      "id": "keyframes",
+      "category": "Animation",
+      "title": "Keyframes and easing",
+      "description": "Animate rest-relative joint transforms with smooth, stepped, elastic, bounce or custom Bezier interpolation.",
+      "tags": [
+        "timeline",
+        "tween",
+        "rotation",
+        "scale"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "key",
+        "parameter.key"
+      ],
+      "coreExports": [
+        "./authoring/easing",
+        "./fx/math"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "key-rotation"
+      ]
+    },
+    {
+      "id": "timeline",
+      "category": "Animation",
+      "title": "Shared timeline",
+      "description": "Inspect tracks and retime transform, constraint, speech, drawing and sound keys together.",
+      "tags": [
+        "keyframes",
+        "retime",
+        "markers"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "timeline.edit",
+        "timing.marker",
+        "timing.remove"
+      ],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "timeline",
+      "recipes": [
+        "open-timeline"
+      ]
+    },
+    {
+      "id": "motion",
+      "category": "Animation",
+      "title": "Motion layers and secondary motion",
+      "description": "Author contacts, look targets, follow motion, masked clip layers, pose offsets, smears and morphs.",
+      "tags": [
+        "squash",
+        "wiggle",
+        "follow",
+        "smear",
+        "bounce",
+        "contact"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "motion.clip",
+        "motion.contact",
+        "motion.follow",
+        "motion.layer",
+        "motion.look",
+        "motion.morph",
+        "motion.pose",
+        "motion.remove",
+        "motion.smear",
+        "motion.targetKey",
+        "motion.update",
+        "motion.weight",
+        "preset"
+      ],
+      "coreExports": [
+        "./fx/motion",
+        "./motion-tools/core",
+        "./motion-tools/scene-layers"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "motion",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-motion"
+      ]
+    },
+    {
+      "id": "procedural",
+      "category": "Animation",
+      "title": "Procedural 2D rigs",
+      "description": "Build ropes, spines, tentacles, soft bodies and walking rigs with particles, constraints, collisions, support and dynamic ink surfaces.",
+      "tags": [
+        "physics",
+        "rope",
+        "tentacle",
+        "soft body",
+        "locomotion",
+        "gait",
+        "ink"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "2D rigs can render on a puppet plane in 3D; spatial locomotion is a separate feature."
+      ],
+      "commands": [
+        "procedural.attachment",
+        "procedural.bind",
+        "procedural.chain",
+        "procedural.connection",
+        "procedural.detach",
+        "procedural.disconnect",
+        "procedural.driver",
+        "procedural.gait",
+        "procedural.impulse",
+        "procedural.particle",
+        "procedural.primitive",
+        "procedural.remove",
+        "procedural.replace",
+        "procedural.settings",
+        "procedural.support",
+        "procedural.surface",
+        "procedural.unbind"
+      ],
+      "coreExports": [
+        "./procedural/model",
+        "./procedural/constraints",
+        "./procedural/collision",
+        "./procedural/simulation",
+        "./procedural/ink-route",
+        "./procedural/surfaces",
+        "./procedural/builders",
+        "./procedural/commands",
+        "./procedural/bindings",
+        "./procedural/sources",
+        "./procedural/connections",
+        "./procedural/locomotion",
+        "./procedural/transfer",
+        "./procedural/attachments"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/procedural-authoring.md",
+      "examples": [],
+      "panel": "procedural",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-procedural",
+        "create-rope"
+      ]
+    },
+    {
+      "id": "procedural3d",
+      "category": "Animation",
+      "title": "Procedural 3D locomotion",
+      "description": "Plan stepping, reaching and following chains over terrain, including body support, target movement and tracking.",
+      "tags": [
+        "terrain",
+        "feet",
+        "walk",
+        "gait",
+        "tracking"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "A 3D scene and a procedural rig configuration."
+      ],
+      "limitations": [],
+      "commands": [
+        "scene3d.procedural.build"
+      ],
+      "coreExports": [
+        "./procedural3d/model",
+        "./procedural3d/math",
+        "./procedural3d/terrain",
+        "./procedural3d/runtime",
+        "./procedural3d/builders"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "noodle",
+      "category": "Deformation",
+      "title": "Noodle deformation",
+      "description": "Bend artwork and geometry around a continuous spine with stretch, twist, lag, overshoot and volume preservation.",
+      "tags": [
+        "squishy",
+        "bend",
+        "spine",
+        "stretch",
+        "2d",
+        "3d"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "SVG baking requires editable vector artwork; use rendered export for artwork meshes."
+      ],
+      "commands": [
+        "noodle.bake",
+        "noodle.bind",
+        "noodle.key",
+        "noodle.remove",
+        "noodle.set"
+      ],
+      "coreExports": [
+        "./noodle/model",
+        "./noodle/deform"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [
+        {
+          "title": "Open Noodle deformation example",
+          "url": "puppet-studio/index.html?example=noodle-2d"
+        }
+      ],
+      "panel": "noodle",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-noodle",
+        "add-noodle"
+      ]
+    },
+    {
+      "id": "meshes",
+      "category": "Deformation",
+      "title": "Artwork meshes",
+      "description": "Create grids or custom contours, triangulate artwork, animate vertices and paint bone weights.",
+      "tags": [
+        "warp",
+        "cloth",
+        "mesh",
+        "weight",
+        "skin"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "Unbind and remove mesh keys before changing topology."
+      ],
+      "commands": [
+        "mesh.addVertex",
+        "mesh.bind",
+        "mesh.contour",
+        "mesh.create",
+        "mesh.edge",
+        "mesh.enabled",
+        "mesh.generate",
+        "mesh.key",
+        "mesh.paste",
+        "mesh.positions",
+        "mesh.remove",
+        "mesh.removeVertex",
+        "mesh.unbind",
+        "mesh.vertex",
+        "mesh.weights"
+      ],
+      "coreExports": [
+        "./mesh"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/meshes.md",
+      "examples": [
+        {
+          "title": "Open Artwork meshes example",
+          "url": "puppet-studio/index.html?example=mesh"
+        }
+      ],
+      "panel": "meshes",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-meshes",
+        "create-mesh"
+      ]
+    },
+    {
+      "id": "bone-binding",
+      "category": "Deformation",
+      "title": "SVG bone binding",
+      "description": "Bind SVG points and independent Bezier handles to bones with normalized weights.",
+      "tags": [
+        "skin",
+        "skeleton",
+        "weights",
+        "bezier"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Editable SVG artwork and control joints."
+      ],
+      "limitations": [],
+      "commands": [
+        "boneBinding.bind",
+        "boneBinding.enabled",
+        "boneBinding.unbind",
+        "boneBinding.weights"
+      ],
+      "coreExports": [
+        "./bone-binding"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/bone-binding.md",
+      "examples": [],
+      "panel": "boneBindings",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-bone-binding",
+        "bind-svg"
+      ]
+    },
+    {
+      "id": "constraints",
+      "category": "Animation",
+      "title": "Constraints and inverse kinematics",
+      "description": "Constrain translation, rotation, scale, transform or distance, and solve 2D IK chains with animated influence.",
+      "tags": [
+        "ik",
+        "inverse kinematics",
+        "pin",
+        "limits"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "IK chain authoring is 2D; transform and distance constraints also support 3D."
+      ],
+      "commands": [
+        "constraint.add",
+        "constraint.key",
+        "constraint.order",
+        "constraint.remove",
+        "constraint.update"
+      ],
+      "coreExports": [
+        "./constraints",
+        "./constraints/solve2d",
+        "./constraints/solve3d"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/constraints.md",
+      "examples": [
+        {
+          "title": "Open Constraints and inverse kinematics example",
+          "url": "puppet-studio/index.html?example=constraints"
+        }
+      ],
+      "panel": "constraints",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-constraints",
+        "distance-constraint"
+      ]
+    },
+    {
+      "id": "follow-path",
+      "category": "Animation",
+      "title": "Follow Path",
+      "description": "Move and orient a joint along an editable SVG path with keyed distance and constraint strength.",
+      "tags": [
+        "path",
+        "curve",
+        "orient"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "An editable SVG path target in the 2D rig."
+      ],
+      "limitations": [
+        "Warped, cropped, sliced and procedural-bound path targets are not supported; point morphs and SVG bone binding are supported."
+      ],
+      "commands": [
+        "constraint.add",
+        "constraint.key",
+        "constraint.order",
+        "constraint.remove",
+        "constraint.update"
+      ],
+      "coreExports": [
+        "./constraints",
+        "./constraints/solve2d",
+        "./constraints/solve3d"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/follow-path.md",
+      "examples": [
+        {
+          "title": "Open Follow Path example",
+          "url": "puppet-studio/index.html?example=follow-path"
+        }
+      ],
+      "panel": "constraints",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-follow-path",
+        "follow-svg-path"
+      ]
+    },
+    {
+      "id": "joysticks",
+      "category": "Animation",
+      "title": "Pose joysticks",
+      "description": "Drive two source timelines with an animated handle, a world-space target or nested joystick controls.",
+      "tags": [
+        "face",
+        "pose",
+        "gaze",
+        "control"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "Sources must not claim the same property. Joysticks control 2D rigs, including their 3D puppet instances."
+      ],
+      "commands": [
+        "joystick.configure",
+        "joystick.create",
+        "joystick.default",
+        "joystick.key",
+        "joystick.remove"
+      ],
+      "coreExports": [
+        "./joysticks"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/joysticks.md",
+      "examples": [
+        {
+          "title": "Open Pose joysticks example",
+          "url": "puppet-studio/index.html?example=joysticks"
+        }
+      ],
+      "panel": "joysticks",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-joysticks",
+        "key-joystick"
+      ]
+    },
+    {
+      "id": "solos",
+      "category": "Animation",
+      "title": "Solo drawing swaps",
+      "description": "Show one child branch at a time using default choices and held animation keys.",
+      "tags": [
+        "expressions",
+        "switch",
+        "visibility",
+        "drawing"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "solo.create",
+        "solo.default",
+        "solo.disable",
+        "solo.enable",
+        "solo.key",
+        "solo.wrap"
+      ],
+      "coreExports": [
+        "./solos"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/solos.md",
+      "examples": [
+        {
+          "title": "Open Solo drawing swaps example",
+          "url": "puppet-studio/index.html?example=solos"
+        }
+      ],
+      "panel": "solos",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-solos",
+        "key-solo"
+      ]
+    },
+    {
+      "id": "draw-order",
+      "category": "Animation",
+      "title": "Animated draw order",
+      "description": "Move drawable branches in front of or behind other artwork without changing joint parents.",
+      "tags": [
+        "layers",
+        "stacking",
+        "occlusion"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "drawOrder.add",
+        "drawOrder.default",
+        "drawOrder.key",
+        "drawOrder.remove",
+        "drawOrder.update"
+      ],
+      "coreExports": [
+        "./draw-order"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/draw-order.md",
+      "examples": [
+        {
+          "title": "Open Animated draw order example",
+          "url": "puppet-studio/index.html?example=draw-order"
+        }
+      ],
+      "panel": "drawOrder",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-draw-order"
+      ]
+    },
+    {
+      "id": "state-machines",
+      "category": "Animation",
+      "title": "Animation state machines",
+      "description": "Connect clips with boolean, number and trigger inputs, conditional transitions and layered pose blending.",
+      "tags": [
+        "transitions",
+        "blend",
+        "inputs",
+        "states"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "The editor state-machine preview is silent; clip visuals use the dominant animation."
+      ],
+      "commands": [
+        "stateMachine.put",
+        "stateMachine.remove"
+      ],
+      "coreExports": [
+        "./state-machine"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/state-machines.md",
+      "examples": [],
+      "panel": "stateMachines",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-state-machines",
+        "create-state-machine"
+      ]
+    },
+    {
+      "id": "body-joins",
+      "category": "Deformation",
+      "title": "Soft body joins",
+      "description": "Join overlapping puppet parts with silhouette-aware deformation and paint continuity.",
+      "tags": [
+        "seam",
+        "attachment",
+        "soft",
+        "blend"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Overlapping artwork parts and an explicit target joint or solid body."
+      ],
+      "limitations": [],
+      "commands": [
+        "bodyJoin.create",
+        "bodyJoin.remove",
+        "bodyJoin.update"
+      ],
+      "coreExports": [
+        "./body-joins",
+        "./body-join-profiles",
+        "./body-join-render",
+        "./body-join-seams",
+        "./scene3d/attachment-blend"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [
+        {
+          "title": "Open Soft body joins example",
+          "url": "puppet-studio/index.html?example=body-joins"
+        }
+      ],
+      "panel": "bodyJoins",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-body-joins"
+      ]
+    },
+    {
+      "id": "vector-art",
+      "category": "Artwork",
+      "title": "SVG artwork editor",
+      "description": "Edit paths and Bezier handles, colours, gradients, swatches, shape order, booleans and point animation.",
+      "tags": [
+        "svg",
+        "bezier",
+        "vector",
+        "paths",
+        "gradient",
+        "text"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open SVG artwork in the Artwork workspace."
+      ],
+      "limitations": [],
+      "commands": [
+        "shape",
+        "text",
+        "vector.add",
+        "vector.boolean",
+        "vector.clip",
+        "vector.create",
+        "vector.delete",
+        "vector.duplicate",
+        "vector.init",
+        "vector.key",
+        "vector.order",
+        "vector.settings",
+        "vector.swatch",
+        "vector.update"
+      ],
+      "coreExports": [
+        "./vector/model"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "trim-path",
+      "category": "Artwork",
+      "title": "Animated path trimming",
+      "description": "Reveal or offset stroked paths by length, with synced or sequential contour timing.",
+      "tags": [
+        "write on",
+        "stroke",
+        "reveal"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Editable SVG paths with a visible stroke."
+      ],
+      "limitations": [],
+      "commands": [
+        "vector.update",
+        "vector.key"
+      ],
+      "coreExports": [
+        "./vector/model"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/artwork-trim-path.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "trim-stroke"
+      ]
+    },
+    {
+      "id": "clipping",
+      "category": "Artwork",
+      "title": "Vector clipping",
+      "description": "Clip artwork to other vector shapes, including inversion and animated clip sources.",
+      "tags": [
+        "mask",
+        "boolean",
+        "svg"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Editable SVG artwork containing source and target shapes."
+      ],
+      "limitations": [],
+      "commands": [
+        "vector.clip",
+        "vector.update",
+        "vector.delete",
+        "vector.duplicate"
+      ],
+      "coreExports": [
+        "./vector/model"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/artwork-clipping.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "clip-svg"
+      ]
+    },
+    {
+      "id": "n-slicing",
+      "category": "Deformation",
+      "title": "N-slicing and outline detection",
+      "description": "Resize artwork while preserving corners and selected regions; recognize outlines for deformation workflows.",
+      "tags": [
+        "nine slice",
+        "resize",
+        "corners",
+        "outline"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "joint.update",
+        "scene3d.node.update"
+      ],
+      "coreExports": [
+        "./n-slicing",
+        "./outline-recognition"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/n-slicing.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "shape-lab",
+      "category": "Artwork",
+      "title": "Shape Lab",
+      "description": "Combine implicit fields into editable contours, SVG animations or 3D meshes and mesh sequences.",
+      "tags": [
+        "metaballs",
+        "field",
+        "modelling",
+        "boolean",
+        "mesh"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "shapeLab.bake",
+        "shapeLab.create",
+        "shapeLab.delete",
+        "shapeLab.key",
+        "shapeLab.part",
+        "shapeLab.removePart",
+        "shapeLab.settings"
+      ],
+      "coreExports": [
+        "./shape-lab/model",
+        "./shape-lab/field",
+        "./shape-lab/contours",
+        "./shape-lab/mesh"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/shape-lab.md",
+      "examples": [
+        {
+          "title": "Open Shape Lab example",
+          "url": "puppet-studio/index.html?example=shape-lab"
+        }
+      ],
+      "panel": "shapeLab",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-shape-lab",
+        "create-shape-field"
+      ]
+    },
+    {
+      "id": "illustration",
+      "category": "Illustration",
+      "title": "Illustration motion and folds",
+      "description": "Add line boil, edge treatment, pose-driven drawing corrections, motion fields, receivers and 3D bend regions.",
+      "tags": [
+        "wind",
+        "gust",
+        "boil",
+        "paper",
+        "fold",
+        "page",
+        "corrective"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "Boil needs editable SVG artwork. Fold regions need a 3D object."
+      ],
+      "commands": [
+        "illustration.boil",
+        "illustration.corrective",
+        "illustration.edge",
+        "illustration.field",
+        "illustration.fold",
+        "illustration.receiver"
+      ],
+      "coreExports": [
+        "./illustration/controls",
+        "./illustration/fold",
+        "./illustration/contours"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/illustration-tools.md",
+      "examples": [
+        {
+          "title": "Open Illustration motion and folds example",
+          "url": "puppet-studio/index.html?example=book"
+        }
+      ],
+      "panel": "illustration",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-illustration",
+        "line-boil"
+      ]
+    },
+    {
+      "id": "liquid",
+      "category": "Illustration",
+      "title": "Container liquid and potion sounds",
+      "description": "Animate a sealed liquid surface with area-preserving fill, slosh, damping, viscosity, colour, bubbles and optional sound presets.",
+      "tags": [
+        "potion",
+        "fluid",
+        "liquid",
+        "dynamics",
+        "slosh",
+        "viscosity",
+        "bubbles"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "A 2D puppet joint with a container boundary."
+      ],
+      "limitations": [
+        "This is a sealed 2D spring-surface model, not a general 3D fluid solver."
+      ],
+      "commands": [
+        "illustration.key",
+        "illustration.liquid",
+        "illustration.removeKeys",
+        "illustration.soundPreset"
+      ],
+      "coreExports": [
+        "./illustration/container-liquid",
+        "./illustration/liquid-actions",
+        "./illustration/liquid-audio",
+        "./illustration/tracks"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [
+        {
+          "title": "Open Container liquid and potion sounds example",
+          "url": "puppet-studio/index.html?example=potion"
+        }
+      ],
+      "panel": "illustration",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-liquid",
+        "add-liquid"
+      ]
+    },
+    {
+      "id": "colour-shift",
+      "category": "Illustration",
+      "title": "Colour shifts and effect bindings",
+      "description": "Animate hue or tint while protecting ink, and bind illustration channels to runtime effect data.",
+      "tags": [
+        "color",
+        "colour",
+        "hue",
+        "tint",
+        "bindings"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [
+        "Colour-shift authoring targets 2D artwork."
+      ],
+      "commands": [
+        "illustration.binding",
+        "illustration.bindings",
+        "illustration.colorShift",
+        "illustration.key",
+        "illustration.removeKeys"
+      ],
+      "coreExports": [
+        "./illustration/tracks",
+        "./illustration/effect-state",
+        "./illustration/color-shift"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/illustration-tools.md",
+      "examples": [],
+      "panel": "illustration",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-colour-shift",
+        "shift-colour"
+      ]
+    },
+    {
+      "id": "speech",
+      "category": "Audio and faces",
+      "title": "Recorded speech and lip sync",
+      "description": "Place recordings on a timeline with visemes, coarticulation, facial poses, drawing swaps and envelope-driven motion.",
+      "tags": [
+        "talking",
+        "voice",
+        "phoneme",
+        "mouth",
+        "lip sync",
+        "facial"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "A recording, timed cues and a facial rig mapping."
+      ],
+      "limitations": [
+        "Studio schedules supplied recordings. Optional voice-generation scripts need your own provider credentials."
+      ],
+      "commands": [
+        "speech.chunk",
+        "speech.place",
+        "speech.remove",
+        "speech.rig"
+      ],
+      "coreExports": [
+        "./speech"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [
+        {
+          "title": "Open Recorded speech and lip sync example",
+          "url": "puppet-studio/index.html?example=speech"
+        }
+      ],
+      "panel": "speech",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-speech"
+      ]
+    },
+    {
+      "id": "facial3d",
+      "category": "Audio and faces",
+      "title": "3D facial animation",
+      "description": "Drive expression, blinks, gaze and eye landmarks independently from body animation.",
+      "tags": [
+        "face",
+        "eyes",
+        "blink",
+        "gaze",
+        "expression"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "A 3D node with compatible authored face surfaces and eye landmarks."
+      ],
+      "limitations": [],
+      "commands": [
+        "scene3d.event.add",
+        "scene3d.event.remove",
+        "scene3d.event.update",
+        "scene3d.key",
+        "scene3d.node.update"
+      ],
+      "coreExports": [
+        "./scene3d/core/facial-animation",
+        "./scene3d/core/facial-control",
+        "./scene3d/core/landmark-eye"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "scene3d",
+      "category": "3D scenes",
+      "title": "Illustrated 3D scenes",
+      "description": "Build scenes from primitives, SVG planes, extrusions, lathes, meshes and 2D puppet instances; animate transforms and camera settings.",
+      "tags": [
+        "3d",
+        "camera",
+        "import",
+        "obj",
+        "glb",
+        "puppet"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "model.add",
+        "model.remove",
+        "model.update",
+        "scene3d.asset.add",
+        "scene3d.asset.update",
+        "scene3d.clip.add",
+        "scene3d.clip.remove",
+        "scene3d.clip.update",
+        "scene3d.key",
+        "scene3d.new",
+        "scene3d.node.add",
+        "scene3d.node.remove",
+        "scene3d.node.update",
+        "scene3d.replace",
+        "scene3d.settings"
+      ],
+      "coreExports": [
+        "./scene3d/animation",
+        "./scene3d/core/portable",
+        "./scene3d/core/renderer",
+        "./scene3d/schema",
+        "./scene3d/subdivision"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "create-scene-box"
+      ]
+    },
+    {
+      "id": "materials",
+      "category": "3D scenes",
+      "title": "Materials, surfaces and ink outlines",
+      "description": "Author illustrated shading, paint-preserving surfaces, freehand outlines, bevels, surface detail and face artwork.",
+      "tags": [
+        "shading",
+        "outline",
+        "ink",
+        "texture",
+        "bevel",
+        "paint"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "scene3d.material.add",
+        "scene3d.material.remove",
+        "scene3d.material.update",
+        "scene3d.surface.remove",
+        "scene3d.surface.set"
+      ],
+      "coreExports": [
+        "./scene3d/core/materials",
+        "./scene3d/chamfer",
+        "./scene3d/surface-detail",
+        "./scene3d/core/perfect-freehand"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "solids",
+      "category": "3D scenes",
+      "title": "Dice and regular solids",
+      "description": "Create regular solids and dice geometry, with face artwork and a bundled physics example.",
+      "tags": [
+        "cube",
+        "dice",
+        "polyhedron",
+        "physics"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open the Scene workspace, then Dice / solid."
+      ],
+      "limitations": [],
+      "commands": [
+        "scene3d.node.add"
+      ],
+      "coreExports": [
+        "./scene3d/regular-solid"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [
+        {
+          "title": "Open dice physics example",
+          "url": "puppet-studio/dice/index.html"
+        }
+      ],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "lighting",
+      "category": "3D scenes",
+      "title": "Lighting and glowing artwork",
+      "description": "Attach lights to joints or scene objects and animate tint, emission, range and environment light.",
+      "tags": [
+        "light",
+        "night",
+        "glow",
+        "shadow",
+        "emission"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "lighting.key",
+        "lighting.node",
+        "lighting.settings",
+        "scene3d.key"
+      ],
+      "coreExports": [
+        "./lighting-state",
+        "./scene3d/core/lighting-definition",
+        "./scene3d/core/lighting-glsl",
+        "./scene3d/core/painted-ground",
+        "./scene3d/core/shape-shadow"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    },
+    {
+      "id": "particles",
+      "category": "Effects",
+      "title": "Particles",
+      "description": "Author particle emitters and key their parameters for sparks, dust and atmospheric effects.",
+      "tags": [
+        "sparks",
+        "dust",
+        "emitter",
+        "smoke"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "emitter.add",
+        "emitter.remove",
+        "emitter.update",
+        "parameter.key"
+      ],
+      "coreExports": [
+        "./fx/particles"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "fx",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-particles",
+        "create-particles"
+      ]
+    },
+    {
+      "id": "fluid-fields",
+      "category": "Effects",
+      "title": "Fluid fields and vector contours",
+      "description": "Author 2D fluid effects with surface tension and vector contour rendering.",
+      "tags": [
+        "fluid",
+        "dynamics",
+        "simulation",
+        "ink"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "fluid.add",
+        "fluid.remove",
+        "fluid.update"
+      ],
+      "coreExports": [
+        "./illustration/fluid"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "fx",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-fluid-fields",
+        "create-fluid"
+      ]
+    },
+    {
+      "id": "compositing",
+      "category": "Effects",
+      "title": "Compositing and presentation cues",
+      "description": "Connect effect nodes, key numeric parameters and add timed flashes, shake, hitstop and other presentation cues.",
+      "tags": [
+        "effects",
+        "composite",
+        "blur",
+        "flash",
+        "shake",
+        "hitstop"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "cue.add",
+        "cue.remove",
+        "cue.update",
+        "node.add",
+        "node.connect",
+        "node.output",
+        "node.remove",
+        "node.update",
+        "settings",
+        "visual"
+      ],
+      "coreExports": [
+        "./fx/frames",
+        "./fx/presentation"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "fx",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-compositing"
+      ]
+    },
+    {
+      "id": "grading",
+      "category": "Artwork",
+      "title": "Colour grading",
+      "description": "Apply scene-wide colour presets and grading controls after lighting, shadows and effects.",
+      "tags": [
+        "color",
+        "colour",
+        "grade",
+        "palette"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "grading.reset",
+        "grading.set"
+      ],
+      "coreExports": [
+        "./rendering/color-grading"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "grading",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-grading",
+        "neutral-grade"
+      ]
+    },
+    {
+      "id": "backdrops",
+      "category": "Artwork",
+      "title": "Backgrounds and parallax",
+      "description": "Layer, order and animate scene backdrops independently from the puppet.",
+      "tags": [
+        "background",
+        "parallax",
+        "scenery"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "backdrop.add",
+        "backdrop.key",
+        "backdrop.order",
+        "backdrop.remove",
+        "backdrop.settings",
+        "backdrop.update"
+      ],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "environment",
+      "recipes": [
+        "open-backdrops"
+      ]
+    },
+    {
+      "id": "sound",
+      "category": "Audio and faces",
+      "title": "Sound design",
+      "description": "Author sound libraries and timed cues, including procedural synthesis and liquid sound presets.",
+      "tags": [
+        "sfx",
+        "sound fx",
+        "audio",
+        "synthesis"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "audio.library",
+        "library.soundVolume"
+      ],
+      "coreExports": [
+        "./scene3d/core/audio"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "sound",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-sound"
+      ]
+    },
+    {
+      "id": "library",
+      "category": "Reuse and runtime",
+      "title": "Reusable component library",
+      "description": "Capture and place reusable puppets, motion and other components with dependency remapping and explicit source updates.",
+      "tags": [
+        "reuse",
+        "prefab",
+        "component",
+        "puppet",
+        "source"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "library.capture",
+        "library.detach",
+        "library.import",
+        "library.place",
+        "library.remove",
+        "library.rename",
+        "library.soundVolume",
+        "library.updateSource"
+      ],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "library",
+      "recipes": [
+        "open-library"
+      ]
+    },
+    {
+      "id": "appearance",
+      "category": "Artwork",
+      "title": "Appearance roles and variants",
+      "description": "Bind semantic colour roles, switch variants and apply consistent styling to artwork.",
+      "tags": [
+        "skin",
+        "theme",
+        "variant",
+        "colour",
+        "palette"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "appearance.bind",
+        "appearance.grade",
+        "appearance.init",
+        "appearance.removeVariant",
+        "appearance.role",
+        "appearance.select",
+        "appearance.unbind",
+        "appearance.variant"
+      ],
+      "coreExports": [
+        "./authoring/appearance"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "styles",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-appearance"
+      ]
+    },
+    {
+      "id": "entities",
+      "category": "Reuse and runtime",
+      "title": "Entities and component schemas",
+      "description": "Define component schemas, entity templates and references for application-defined state.",
+      "tags": [
+        "ecs",
+        "schema",
+        "templates",
+        "data"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "component.define",
+        "component.remove",
+        "entity.assign",
+        "entity.create",
+        "entity.detach",
+        "entity.duplicate",
+        "entity.import",
+        "entity.init",
+        "entity.remove",
+        "entity.rename",
+        "entity.values"
+      ],
+      "coreExports": [
+        "./entities/commands",
+        "./entities/definitions",
+        "./entities/world"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/live-api.md",
+      "examples": [],
+      "panel": "entities",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-entities"
+      ]
+    },
+    {
+      "id": "behaviours",
+      "category": "Reuse and runtime",
+      "title": "Data-defined behaviours and attached effects",
+      "description": "Run component operations and timed state transitions, and bind transforms, attachments, beams and effects to controller state.",
+      "tags": [
+        "behaviour",
+        "behavior",
+        "controller",
+        "laser",
+        "beam",
+        "event"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Entity definitions, a controller library and scene node bindings."
+      ],
+      "limitations": [],
+      "commands": [
+        "scene3d.event.add",
+        "scene3d.event.remove",
+        "scene3d.event.update"
+      ],
+      "coreExports": [
+        "./scene3d/core/action-machine",
+        "./scene3d/core/action-presenter",
+        "./scene3d/core/controller-placement",
+        "./scene3d/core/procedural-effects",
+        "./scene3d/core/surface-contact",
+        "./scene3d/core/attachments",
+        "./behaviour/runtime"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "behaviours",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-behaviours"
+      ]
+    },
+    {
+      "id": "actions",
+      "category": "Reuse and runtime",
+      "title": "Reusable actions",
+      "description": "Capture parameterized animation actions and instantiate them on other targets.",
+      "tags": [
+        "action",
+        "recipe",
+        "parameters"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "action.capture",
+        "action.instantiate",
+        "action.parameter",
+        "action.remove",
+        "action.rename",
+        "action.values"
+      ],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "actions",
+      "recipes": [
+        "open-actions"
+      ]
+    },
+    {
+      "id": "ownership",
+      "category": "Animation",
+      "title": "Property ownership and resolved channels",
+      "description": "Inspect competing animation sources, key handovers, and bake resolved properties for predictable playback.",
+      "tags": [
+        "ownership",
+        "bake",
+        "resolve",
+        "handover"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "ownership.bake",
+        "ownership.bakeSettings",
+        "ownership.handover",
+        "ownership.key",
+        "ownership.removeBake"
+      ],
+      "coreExports": [
+        "./authoring/resolved-channels"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "ownership",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-ownership"
+      ]
+    },
+    {
+      "id": "recording",
+      "category": "Animation",
+      "title": "Gesture recording",
+      "description": "Record interactive edits into animation tracks and simplify captured keys.",
+      "tags": [
+        "capture",
+        "record",
+        "gesture"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "recording.apply",
+        "recording.simplify"
+      ],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "recipes": []
+    },
+    {
+      "id": "preview",
+      "category": "Reuse and runtime",
+      "title": "Preview scenarios and references",
+      "description": "Compare poses and clips in preview scenarios and save references for review.",
+      "tags": [
+        "review",
+        "reference",
+        "comparison"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Open an editor project to author this feature."
+      ],
+      "limitations": [],
+      "commands": [
+        "preview.reference",
+        "preview.removeReference",
+        "preview.scenario"
+      ],
+      "coreExports": [
+        "./references/catalog"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "panel": "references",
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": [
+        "open-preview"
+      ]
+    },
+    {
+      "id": "export",
+      "category": "Getting started",
+      "title": "Rendering and exports",
+      "description": "Export portable projects, runtime modules, HTML players, SVG artwork, PNGs, GIFs, sprite sheets and frame archives.",
+      "tags": [
+        "render",
+        "export",
+        "png",
+        "gif",
+        "spritesheet",
+        "frames",
+        "html",
+        "video"
+      ],
+      "scope": [
+        "web"
+      ],
+      "requirements": [
+        "Load all artwork and select a clip before rendering."
+      ],
+      "limitations": [
+        "Video assembly uses an external encoder such as ffmpeg; it is not an MP4 export option in the live API."
+      ],
+      "commands": [],
+      "coreExports": [],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/docs/live-api.md",
+      "examples": [],
+      "recipes": [
+        "export-png",
+        "export-project"
+      ]
+    },
+    {
+      "id": "image-vectorizer",
+      "category": "Conversion",
+      "title": "Image to SVG",
+      "description": "Convert raster artwork into layered vector paths using the optional native Node pipeline.",
+      "tags": [
+        "trace",
+        "raster",
+        "vectorize",
+        "png"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Node.js and the optional native vectorizer dependencies."
+      ],
+      "limitations": [
+        "This is a Node API, not a browser-only image conversion service."
+      ],
+      "commands": [],
+      "coreExports": [
+        "./image-vectorizer/node"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "codeExamples": [
+        {
+          "language": "js",
+          "title": "Convert a local PNG (Node)",
+          "code": "import fs from 'node:fs/promises';\nimport {convert} from '@shapeshift-labs/studio-core/image-vectorizer/node';\nconst result = await convert(await fs.readFile('input.png'), {preset: 'cel', colors: 12});\nawait fs.writeFile('output.svg', result.svg);"
+        }
+      ],
+      "recipes": []
+    },
+    {
+      "id": "video-vectorizer",
+      "category": "Conversion",
+      "title": "Video to tracked SVG",
+      "description": "Convert video frames into temporally tracked vector artwork, with palette, motion and outline controls.",
+      "tags": [
+        "video",
+        "vectorize",
+        "tracking",
+        "ffmpeg",
+        "svg"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "For conversion: Node.js, optional native dependencies, ffmpeg and ffprobe on PATH; run npm run serve:video."
+      ],
+      "limitations": [
+        "The normal editor server opens existing vector clips; conversion uses the dedicated local service, default port 8791."
+      ],
+      "commands": [],
+      "coreExports": [
+        "./video-vectorizer",
+        "./video-vectorizer/node",
+        "./video-vectorizer/silhouette-ink"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "codeExamples": [
+        {
+          "language": "sh",
+          "title": "Start the conversion service",
+          "code": "npm run build\nnpm run serve:video\n# Open http://127.0.0.1:8791/studio/puppet-studio/video-vectorizer/"
+        }
+      ],
+      "recipes": []
+    },
+    {
+      "id": "runtime-foundations",
+      "category": "Reuse and runtime",
+      "title": "Runtime foundations",
+      "description": "Import focused math, geometry, vector rendering, deformation and validation modules without loading the editor.",
+      "tags": [
+        "core",
+        "library",
+        "math",
+        "geometry",
+        "validation"
+      ],
+      "scope": [
+        "web",
+        "core"
+      ],
+      "requirements": [
+        "Install Studio Core; renderer modules use the Three.js peer dependency."
+      ],
+      "limitations": [],
+      "commands": [],
+      "coreExports": [
+        "./joint-transforms",
+        "./scene3d/core/camera-motion",
+        "./scene3d/core/composition",
+        "./scene3d/core/deformation",
+        "./scene3d/core/expression",
+        "./scene3d/core/library-validation",
+        "./scene3d/core/mirroring",
+        "./scene3d/core/motion",
+        "./scene3d/core/texture-upload",
+        "./scene3d/core/uniforms",
+        "./scene3d/core/vector-animation",
+        "./scene3d/core/vector-art",
+        "./scene3d/core/vector-effects",
+        "./scene3d/core/vector-lods",
+        "./scene3d/core/vector-validation",
+        "./catalog",
+        "./catalog.json"
+      ],
+      "documentation": "https://github.com/siliconjungle/shapeshift-studio-web/blob/main/README.md",
+      "examples": [],
+      "documentationCore": "https://github.com/siliconjungle/shapeshift-studio-core#animation-and-illustration-toolkit-03",
+      "recipes": []
+    }
+  ],
+  "recipes": [
+    {
+      "id": "open-timeline",
+      "feature": "timeline",
+      "title": "Open Shared timeline",
+      "description": "Open Shared timeline. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "timeline",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-motion",
+      "feature": "motion",
+      "title": "Open Motion layers and secondary motion",
+      "description": "Open Motion layers and secondary motion. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "motion",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-procedural",
+      "feature": "procedural",
+      "title": "Open Procedural 2D rigs",
+      "description": "Open Procedural 2D rigs. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "procedural",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-noodle",
+      "feature": "noodle",
+      "title": "Open Noodle deformation",
+      "description": "Open Noodle deformation. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "noodle",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-meshes",
+      "feature": "meshes",
+      "title": "Open Artwork meshes",
+      "description": "Open Artwork meshes. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "meshes",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-bone-binding",
+      "feature": "bone-binding",
+      "title": "Open SVG bone binding",
+      "description": "Open SVG bone binding. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "boneBindings",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-constraints",
+      "feature": "constraints",
+      "title": "Open Constraints and inverse kinematics",
+      "description": "Open Constraints and inverse kinematics. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "constraints",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-follow-path",
+      "feature": "follow-path",
+      "title": "Open Follow Path",
+      "description": "Open Follow Path. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "constraints",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-joysticks",
+      "feature": "joysticks",
+      "title": "Open Pose joysticks",
+      "description": "Open Pose joysticks. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "joysticks",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-solos",
+      "feature": "solos",
+      "title": "Open Solo drawing swaps",
+      "description": "Open Solo drawing swaps. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "solos",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-draw-order",
+      "feature": "draw-order",
+      "title": "Open Animated draw order",
+      "description": "Open Animated draw order. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "drawOrder",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-state-machines",
+      "feature": "state-machines",
+      "title": "Open Animation state machines",
+      "description": "Open Animation state machines. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "stateMachines",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-body-joins",
+      "feature": "body-joins",
+      "title": "Open Soft body joins",
+      "description": "Open Soft body joins. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "bodyJoins",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-shape-lab",
+      "feature": "shape-lab",
+      "title": "Open Shape Lab",
+      "description": "Open Shape Lab. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "shapeLab",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-illustration",
+      "feature": "illustration",
+      "title": "Open Illustration motion and folds",
+      "description": "Open Illustration motion and folds. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "illustration",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-liquid",
+      "feature": "liquid",
+      "title": "Open Container liquid and potion sounds",
+      "description": "Open Container liquid and potion sounds. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "illustration",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-colour-shift",
+      "feature": "colour-shift",
+      "title": "Open Colour shifts and effect bindings",
+      "description": "Open Colour shifts and effect bindings. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "illustration",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-speech",
+      "feature": "speech",
+      "title": "Open Recorded speech and lip sync",
+      "description": "Open Recorded speech and lip sync. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "speech",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-particles",
+      "feature": "particles",
+      "title": "Open Particles",
+      "description": "Open Particles. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "fx",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-fluid-fields",
+      "feature": "fluid-fields",
+      "title": "Open Fluid fields and vector contours",
+      "description": "Open Fluid fields and vector contours. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "fx",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-compositing",
+      "feature": "compositing",
+      "title": "Open Compositing and presentation cues",
+      "description": "Open Compositing and presentation cues. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "fx",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-grading",
+      "feature": "grading",
+      "title": "Open Colour grading",
+      "description": "Open Colour grading. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "grading",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-backdrops",
+      "feature": "backdrops",
+      "title": "Open Backgrounds and parallax",
+      "description": "Open Backgrounds and parallax. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "environment",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-sound",
+      "feature": "sound",
+      "title": "Open Sound design",
+      "description": "Open Sound design. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "sound",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-library",
+      "feature": "library",
+      "title": "Open Reusable component library",
+      "description": "Open Reusable component library. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "library",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-appearance",
+      "feature": "appearance",
+      "title": "Open Appearance roles and variants",
+      "description": "Open Appearance roles and variants. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "styles",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-entities",
+      "feature": "entities",
+      "title": "Open Entities and component schemas",
+      "description": "Open Entities and component schemas. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "entities",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-behaviours",
+      "feature": "behaviours",
+      "title": "Open Data-defined behaviours and attached effects",
+      "description": "Open Data-defined behaviours and attached effects. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "editor.invoke",
+          "args": {
+            "target": "behaviours",
+            "method": "show",
+            "args": []
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-actions",
+      "feature": "actions",
+      "title": "Open Reusable actions",
+      "description": "Open Reusable actions. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "actions",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-ownership",
+      "feature": "ownership",
+      "title": "Open Property ownership and resolved channels",
+      "description": "Open Property ownership and resolved channels. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "ownership",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "open-preview",
+      "feature": "preview",
+      "title": "Open Preview scenarios and references",
+      "description": "Open Preview scenarios and references. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "panel.set",
+          "args": {
+            "panel": "references",
+            "open": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "rename-project",
+      "feature": "projects",
+      "title": "Name the current project",
+      "description": "Name the current project. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "My first animation",
+            "description": "Project display name",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "project.rename",
+              "name": {
+                "$input": "name"
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "key-rotation",
+      "feature": "keyframes",
+      "title": "Key a joint rotation",
+      "description": "Key a joint rotation. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Existing joint ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "clip": {
+            "type": "string",
+            "default": "idle",
+            "description": "Existing animation ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "time": {
+            "type": "number",
+            "default": 1,
+            "description": "Seconds within the clip",
+            "minimum": 0
+          },
+          "degrees": {
+            "type": "number",
+            "default": 20,
+            "description": "Rest-relative rotation in degrees",
+            "minimum": -360,
+            "maximum": 360
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "key",
+              "joint": {
+                "$input": "joint"
+              },
+              "clip": {
+                "$input": "clip"
+              },
+              "time": {
+                "$input": "time"
+              },
+              "value": {
+                "rotation": {
+                  "$input": "degrees"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "add-noodle",
+      "feature": "noodle",
+      "title": "Enable squash and bend on artwork",
+      "description": "Enable squash and bend on artwork. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Existing sprite joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "stretch": {
+            "type": "number",
+            "default": 1.2,
+            "description": "Spine stretch ratio",
+            "minimum": 0.1,
+            "maximum": 5
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "noodle.set",
+              "node": {
+                "$input": "joint"
+              },
+              "dimension": 2,
+              "values": {
+                "enabled": true,
+                "stretch": {
+                  "$input": "stretch"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "create-mesh",
+      "feature": "meshes",
+      "title": "Create an artwork mesh grid",
+      "description": "Create an artwork mesh grid. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Existing sprite joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "columns": {
+            "type": "integer",
+            "default": 4,
+            "description": "Grid columns",
+            "minimum": 1,
+            "maximum": 12
+          },
+          "rows": {
+            "type": "integer",
+            "default": 4,
+            "description": "Grid rows",
+            "minimum": 1,
+            "maximum": 12
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "mesh.create",
+              "joint": {
+                "$input": "joint"
+              },
+              "columns": {
+                "$input": "columns"
+              },
+              "rows": {
+                "$input": "rows"
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "Creating a mesh replaces its topology and removes existing mesh keys. Try it on a fresh sprite or undo afterward."
+      ]
+    },
+    {
+      "id": "bind-svg",
+      "feature": "bone-binding",
+      "title": "Bind SVG artwork to its parent",
+      "description": "Bind SVG artwork to its parent. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Editable SVG sprite joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "bone": {
+            "type": "string",
+            "default": "root",
+            "description": "Existing control joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "clip": {
+            "type": "string",
+            "default": "idle",
+            "description": "Existing animation ID",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "boneBinding.bind",
+              "joint": {
+                "$input": "joint"
+              },
+              "clip": {
+                "$input": "clip"
+              },
+              "time": 0,
+              "bones": [
+                {
+                  "$input": "bone"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "add-liquid",
+      "feature": "liquid",
+      "title": "Add a sloshing liquid container",
+      "description": "Add a sloshing liquid container. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Existing container joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "fill": {
+            "type": "number",
+            "default": 0.65,
+            "description": "Filled fraction",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "color": {
+            "type": "string",
+            "default": "#9b66ce",
+            "description": "Liquid colour",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "illustration.liquid",
+              "joint": {
+                "$input": "joint"
+              },
+              "values": {
+                "fill": {
+                  "$input": "fill"
+                },
+                "color": {
+                  "$input": "color"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "The default boundary is a generic container. Customize boundary points to fit your bottle artwork."
+      ]
+    },
+    {
+      "id": "shift-colour",
+      "feature": "colour-shift",
+      "title": "Apply an ink-preserving colour shift",
+      "description": "Apply an ink-preserving colour shift. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Existing sprite joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "hue": {
+            "type": "number",
+            "default": 35,
+            "description": "Hue rotation in degrees",
+            "minimum": -360,
+            "maximum": 360
+          },
+          "amount": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Blend amount",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "illustration.colorShift",
+              "joint": {
+                "$input": "joint"
+              },
+              "values": {
+                "enabled": true,
+                "hue": {
+                  "$input": "hue"
+                },
+                "amount": {
+                  "$input": "amount"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "line-boil",
+      "feature": "illustration",
+      "title": "Animate a hand-drawn line boil",
+      "description": "Animate a hand-drawn line boil. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Joint with editable SVG artwork",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "amount": {
+            "type": "number",
+            "default": 0.6,
+            "description": "Boil displacement",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "illustration.boil",
+              "joint": {
+                "$input": "joint"
+              },
+              "values": {
+                "enabled": true,
+                "amount": {
+                  "$input": "amount"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "trim-stroke",
+      "feature": "trim-path",
+      "title": "Trim the end of an SVG stroke",
+      "description": "Trim the end of an SVG stroke. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "asset": {
+            "type": "string",
+            "default": "artwork",
+            "description": "Editable SVG asset",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "shape": {
+            "type": "string",
+            "default": "body",
+            "description": "Shape inside the asset",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "end": {
+            "type": "number",
+            "default": 0.65,
+            "description": "Visible stroke fraction",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "vector.update",
+              "asset": {
+                "$input": "asset"
+              },
+              "shape": {
+                "$input": "shape"
+              },
+              "values": {
+                "trimEnd": {
+                  "$input": "end"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "create-particles",
+      "feature": "particles",
+      "title": "Add a particle emitter",
+      "description": "Add a particle emitter. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "An editor project with no emitter using the requested ID."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-sparks",
+            "description": "Unique emitter ID",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "emitter.add",
+              "id": {
+                "$input": "id"
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "create-fluid",
+      "feature": "fluid-fields",
+      "title": "Add a 2D fluid field",
+      "description": "Add a 2D fluid field. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "An editor project with no fluid using the requested ID."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-fluid",
+            "description": "Unique fluid ID",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "fluid.add",
+              "id": {
+                "$input": "id"
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "create-scene-box",
+      "feature": "scene3d",
+      "title": "Create and animate a 3D box",
+      "description": "Create and animate a 3D box. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-box",
+            "description": "Unique scene node ID",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": [
+              {
+                "op": "scene3d.new"
+              },
+              {
+                "op": "scene3d.node.add",
+                "id": {
+                  "$input": "id"
+                },
+                "type": "box"
+              },
+              {
+                "op": "scene3d.key",
+                "clip": "idle",
+                "node": {
+                  "$input": "id"
+                },
+                "channel": "rotation",
+                "time": 1,
+                "value": [
+                  0,
+                  45,
+                  0
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "scene3d.new replaces the current 3D scene. Use a fresh project or undo the batch."
+      ]
+    },
+    {
+      "id": "neutral-grade",
+      "feature": "grading",
+      "title": "Reset to neutral colour grading",
+      "description": "Reset to neutral colour grading. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply the IDs from document.read."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "grading.reset",
+              "preset": "neutral"
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "key-solo",
+      "feature": "solos",
+      "title": "Key a drawing swap",
+      "description": "Key a drawing swap. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Open ?example=solos first, or provide equivalent project IDs."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "node": {
+            "type": "string",
+            "default": "expressions",
+            "description": "Solo group ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "clip": {
+            "type": "string",
+            "default": "expressions",
+            "description": "Clip ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "child": {
+            "type": "string",
+            "default": "surprised",
+            "description": "Direct child drawing ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "time": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Seconds",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "solo.key",
+              "node": {
+                "$input": "node"
+              },
+              "clip": {
+                "$input": "clip"
+              },
+              "value": {
+                "$input": "child"
+              },
+              "time": {
+                "$input": "time"
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "solos",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "key-joystick",
+      "feature": "joysticks",
+      "title": "Animate a pose joystick",
+      "description": "Animate a pose joystick. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Open ?example=joysticks first, or provide equivalent project IDs."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "node": {
+            "type": "string",
+            "default": "look",
+            "description": "Joystick joint ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "clip": {
+            "type": "string",
+            "default": "look-around",
+            "description": "Clip ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "x": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Horizontal coordinate",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "y": {
+            "type": "number",
+            "default": -0.5,
+            "description": "Vertical coordinate",
+            "minimum": -1,
+            "maximum": 1
+          },
+          "time": {
+            "type": "number",
+            "default": 0.5,
+            "description": "Seconds",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "joystick.key",
+              "node": {
+                "$input": "node"
+              },
+              "clip": {
+                "$input": "clip"
+              },
+              "time": {
+                "$input": "time"
+              },
+              "value": [
+                {
+                  "$input": "x"
+                },
+                {
+                  "$input": "y"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "testFixture": "joysticks",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "inspect-project",
+      "feature": "headless",
+      "title": "Inspect before editing",
+      "description": "Inspect before editing. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor session."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "editor.inspect",
+          "args": {
+            "project": true
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "export-png",
+      "feature": "export",
+      "title": "Render the selected animation frame",
+      "description": "Render the selected animation frame. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor with loaded artwork and a selected clip."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "number",
+            "default": 0,
+            "description": "Frame time in seconds",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "export",
+          "args": {
+            "format": "png",
+            "time": {
+              "$input": "time"
+            }
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "export-project",
+      "feature": "export",
+      "title": "Save a portable project",
+      "description": "Save a portable project. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "A connected editor with loaded artwork."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "export",
+          "args": {
+            "format": "project"
+          }
+        }
+      ],
+      "testFixture": "ui",
+      "notes": [
+        "These requests are not executed by discovery. Dispatch them explicitly; edits participate in undo history."
+      ]
+    },
+    {
+      "id": "create-rope",
+      "feature": "procedural",
+      "title": "Create a simulated rope",
+      "description": "Create a simulated rope. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply IDs from document.read. New IDs must be unique."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-rope",
+            "description": "Unique rig prefix",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "count": {
+            "type": "integer",
+            "default": 8,
+            "description": "Number of rope points",
+            "minimum": 3,
+            "maximum": 64
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "procedural.primitive",
+              "values": {
+                "id": {
+                  "$input": "id"
+                },
+                "kind": "rope",
+                "count": {
+                  "$input": "count"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "Dispatch explicitly; the whole batch is one undoable edit."
+      ]
+    },
+    {
+      "id": "distance-constraint",
+      "feature": "constraints",
+      "title": "Constrain a joint to a fixed distance",
+      "description": "Constrain a joint to a fixed distance. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply IDs from document.read. New IDs must be unique."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-distance",
+            "description": "Unique constraint ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "joint": {
+            "type": "string",
+            "default": "body",
+            "description": "Owner joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "target": {
+            "type": "string",
+            "default": "root",
+            "description": "Different target joint",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "distance": {
+            "type": "number",
+            "default": 100,
+            "description": "Distance in 2D pixels",
+            "minimum": 0,
+            "maximum": 10000
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "constraint.add",
+              "id": {
+                "$input": "id"
+              },
+              "node": {
+                "$input": "joint"
+              },
+              "target": {
+                "$input": "target"
+              },
+              "type": "distance",
+              "values": {
+                "distance": {
+                  "$input": "distance"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "Dispatch explicitly; the whole batch is one undoable edit."
+      ]
+    },
+    {
+      "id": "follow-svg-path",
+      "feature": "follow-path",
+      "title": "Attach a follower to an SVG path",
+      "description": "Attach a follower to an SVG path. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply IDs from document.read. New IDs must be unique."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-follower",
+            "description": "New follower joint ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "constraint": {
+            "type": "string",
+            "default": "catalog-path",
+            "description": "Unique constraint ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "target": {
+            "type": "string",
+            "default": "body",
+            "description": "Joint with editable SVG artwork",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "distance": {
+            "type": "number",
+            "default": 0.25,
+            "description": "Normalized path distance",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": [
+              {
+                "op": "joint.add",
+                "id": {
+                  "$input": "id"
+                }
+              },
+              {
+                "op": "constraint.add",
+                "id": {
+                  "$input": "constraint"
+                },
+                "node": {
+                  "$input": "id"
+                },
+                "target": {
+                  "$input": "target"
+                },
+                "type": "followPath",
+                "values": {
+                  "distance": {
+                    "$input": "distance"
+                  },
+                  "orient": true
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "Dispatch explicitly; the whole batch is one undoable edit."
+      ]
+    },
+    {
+      "id": "clip-svg",
+      "feature": "clipping",
+      "title": "Clip artwork to a rectangle",
+      "description": "Clip artwork to a rectangle. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply IDs from document.read. New IDs must be unique."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "asset": {
+            "type": "string",
+            "default": "artwork",
+            "description": "Existing editable SVG asset",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "shape": {
+            "type": "string",
+            "default": "body",
+            "description": "Shape to clip",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "mask": {
+            "type": "string",
+            "default": "catalog-mask",
+            "description": "Unique clipping shape ID",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": [
+              {
+                "op": "vector.add",
+                "asset": {
+                  "$input": "asset"
+                },
+                "value": {
+                  "id": {
+                    "$input": "mask"
+                  },
+                  "name": "Rectangle clip",
+                  "commands": [
+                    "M",
+                    "L",
+                    "L",
+                    "L",
+                    "Z"
+                  ],
+                  "points": [
+                    20,
+                    20,
+                    120,
+                    20,
+                    120,
+                    180,
+                    20,
+                    180
+                  ],
+                  "fill": "#ffffff",
+                  "stroke": "none",
+                  "strokeWidth": 0,
+                  "opacity": 1,
+                  "hidden": false,
+                  "locked": false,
+                  "fillRule": "nonzero",
+                  "lineCap": "round",
+                  "lineJoin": "round"
+                }
+              },
+              {
+                "op": "vector.clip",
+                "asset": {
+                  "$input": "asset"
+                },
+                "shape": {
+                  "$input": "shape"
+                },
+                "source": {
+                  "$input": "mask"
+                },
+                "hideSource": true
+              }
+            ]
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "The rectangle coordinates fit the default 200\u00d7200 artwork. Adjust its points for your own drawing."
+      ]
+    },
+    {
+      "id": "create-shape-field",
+      "feature": "shape-lab",
+      "title": "Create an animated implicit shape field",
+      "description": "Create an animated implicit shape field. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply IDs from document.read. New IDs must be unique."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-blobs",
+            "description": "Unique shape recipe ID",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "dimension": {
+            "type": "integer",
+            "default": 2,
+            "description": "2D contours or 3D mesh field",
+            "enum": [
+              2,
+              3
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "shapeLab.create",
+              "id": {
+                "$input": "id"
+              },
+              "dimension": {
+                "$input": "dimension"
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "Dispatch explicitly; the whole batch is one undoable edit."
+      ]
+    },
+    {
+      "id": "create-state-machine",
+      "feature": "state-machines",
+      "title": "Create a clip-driven state machine",
+      "description": "Create a clip-driven state machine. Inputs are validated before requests are expanded.",
+      "requirements": [
+        "Use a fresh default project, or supply IDs from document.read. New IDs must be unique."
+      ],
+      "inputSchema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "catalog-machine",
+            "description": "New machine ID (existing ID replaces that machine)",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "clip": {
+            "type": "string",
+            "default": "idle",
+            "description": "Existing 2D animation clip",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        },
+        "additionalProperties": false
+      },
+      "requests": [
+        {
+          "op": "document.dispatch",
+          "args": {
+            "commands": {
+              "op": "stateMachine.put",
+              "value": {
+                "id": {
+                  "$input": "id"
+                },
+                "name": "Clip player",
+                "dimension": 2,
+                "inputs": [],
+                "layers": [
+                  {
+                    "id": "base",
+                    "name": "Base layer",
+                    "enabled": true,
+                    "entry": "play",
+                    "states": [
+                      {
+                        "id": "play",
+                        "name": "Play clip",
+                        "type": "animation",
+                        "clip": {
+                          "$input": "clip"
+                        },
+                        "speed": 1,
+                        "playback": "clip",
+                        "x": 100,
+                        "y": 100
+                      }
+                    ],
+                    "transitions": []
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "testFixture": "starter",
+      "notes": [
+        "Dispatch explicitly; the whole batch is one undoable edit."
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "op": "action.capture",
+      "features": [
+        "actions"
+      ]
+    },
+    {
+      "op": "action.instantiate",
+      "features": [
+        "actions"
+      ]
+    },
+    {
+      "op": "action.parameter",
+      "features": [
+        "actions"
+      ]
+    },
+    {
+      "op": "action.remove",
+      "features": [
+        "actions"
+      ]
+    },
+    {
+      "op": "action.rename",
+      "features": [
+        "actions"
+      ]
+    },
+    {
+      "op": "action.values",
+      "features": [
+        "actions"
+      ]
+    },
+    {
+      "op": "appearance.bind",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.grade",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.init",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.removeVariant",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.role",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.select",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.unbind",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "appearance.variant",
+      "features": [
+        "appearance"
+      ]
+    },
+    {
+      "op": "asset.add",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "asset.remove",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "asset.update",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "audio.library",
+      "features": [
+        "sound"
+      ]
+    },
+    {
+      "op": "backdrop.add",
+      "features": [
+        "backdrops"
+      ]
+    },
+    {
+      "op": "backdrop.key",
+      "features": [
+        "backdrops"
+      ]
+    },
+    {
+      "op": "backdrop.order",
+      "features": [
+        "backdrops"
+      ]
+    },
+    {
+      "op": "backdrop.remove",
+      "features": [
+        "backdrops"
+      ]
+    },
+    {
+      "op": "backdrop.settings",
+      "features": [
+        "backdrops"
+      ]
+    },
+    {
+      "op": "backdrop.update",
+      "features": [
+        "backdrops"
+      ]
+    },
+    {
+      "op": "bodyJoin.create",
+      "features": [
+        "body-joins"
+      ]
+    },
+    {
+      "op": "bodyJoin.remove",
+      "features": [
+        "body-joins"
+      ]
+    },
+    {
+      "op": "bodyJoin.update",
+      "features": [
+        "body-joins"
+      ]
+    },
+    {
+      "op": "boneBinding.bind",
+      "features": [
+        "bone-binding"
+      ]
+    },
+    {
+      "op": "boneBinding.enabled",
+      "features": [
+        "bone-binding"
+      ]
+    },
+    {
+      "op": "boneBinding.unbind",
+      "features": [
+        "bone-binding"
+      ]
+    },
+    {
+      "op": "boneBinding.weights",
+      "features": [
+        "bone-binding"
+      ]
+    },
+    {
+      "op": "clip.add",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "clip.bake",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "clip.duplicate",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "clip.remove",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "clip.update",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "component.define",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "component.remove",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "constraint.add",
+      "features": [
+        "constraints",
+        "follow-path"
+      ]
+    },
+    {
+      "op": "constraint.key",
+      "features": [
+        "constraints",
+        "follow-path"
+      ]
+    },
+    {
+      "op": "constraint.order",
+      "features": [
+        "constraints",
+        "follow-path"
+      ]
+    },
+    {
+      "op": "constraint.remove",
+      "features": [
+        "constraints",
+        "follow-path"
+      ]
+    },
+    {
+      "op": "constraint.update",
+      "features": [
+        "constraints",
+        "follow-path"
+      ]
+    },
+    {
+      "op": "cue.add",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "cue.remove",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "cue.update",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "drawOrder.add",
+      "features": [
+        "draw-order"
+      ]
+    },
+    {
+      "op": "drawOrder.default",
+      "features": [
+        "draw-order"
+      ]
+    },
+    {
+      "op": "drawOrder.key",
+      "features": [
+        "draw-order"
+      ]
+    },
+    {
+      "op": "drawOrder.remove",
+      "features": [
+        "draw-order"
+      ]
+    },
+    {
+      "op": "drawOrder.update",
+      "features": [
+        "draw-order"
+      ]
+    },
+    {
+      "op": "emitter.add",
+      "features": [
+        "particles"
+      ]
+    },
+    {
+      "op": "emitter.remove",
+      "features": [
+        "particles"
+      ]
+    },
+    {
+      "op": "emitter.update",
+      "features": [
+        "particles"
+      ]
+    },
+    {
+      "op": "entity.assign",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.create",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.detach",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.duplicate",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.import",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.init",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.remove",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.rename",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "entity.values",
+      "features": [
+        "entities"
+      ]
+    },
+    {
+      "op": "fluid.add",
+      "features": [
+        "fluid-fields"
+      ]
+    },
+    {
+      "op": "fluid.remove",
+      "features": [
+        "fluid-fields"
+      ]
+    },
+    {
+      "op": "fluid.update",
+      "features": [
+        "fluid-fields"
+      ]
+    },
+    {
+      "op": "grading.reset",
+      "features": [
+        "grading"
+      ]
+    },
+    {
+      "op": "grading.set",
+      "features": [
+        "grading"
+      ]
+    },
+    {
+      "op": "illustration.binding",
+      "features": [
+        "colour-shift"
+      ]
+    },
+    {
+      "op": "illustration.bindings",
+      "features": [
+        "colour-shift"
+      ]
+    },
+    {
+      "op": "illustration.boil",
+      "features": [
+        "illustration"
+      ]
+    },
+    {
+      "op": "illustration.colorShift",
+      "features": [
+        "colour-shift"
+      ]
+    },
+    {
+      "op": "illustration.corrective",
+      "features": [
+        "illustration"
+      ]
+    },
+    {
+      "op": "illustration.edge",
+      "features": [
+        "illustration"
+      ]
+    },
+    {
+      "op": "illustration.field",
+      "features": [
+        "illustration"
+      ]
+    },
+    {
+      "op": "illustration.fold",
+      "features": [
+        "illustration"
+      ]
+    },
+    {
+      "op": "illustration.key",
+      "features": [
+        "liquid",
+        "colour-shift"
+      ]
+    },
+    {
+      "op": "illustration.liquid",
+      "features": [
+        "liquid"
+      ]
+    },
+    {
+      "op": "illustration.receiver",
+      "features": [
+        "illustration"
+      ]
+    },
+    {
+      "op": "illustration.removeKeys",
+      "features": [
+        "liquid",
+        "colour-shift"
+      ]
+    },
+    {
+      "op": "illustration.soundPreset",
+      "features": [
+        "liquid"
+      ]
+    },
+    {
+      "op": "joint.add",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "joint.ik",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "joint.origin",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "joint.remove",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "joint.rename",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "joint.update",
+      "features": [
+        "projects",
+        "n-slicing"
+      ]
+    },
+    {
+      "op": "joystick.configure",
+      "features": [
+        "joysticks"
+      ]
+    },
+    {
+      "op": "joystick.create",
+      "features": [
+        "joysticks"
+      ]
+    },
+    {
+      "op": "joystick.default",
+      "features": [
+        "joysticks"
+      ]
+    },
+    {
+      "op": "joystick.key",
+      "features": [
+        "joysticks"
+      ]
+    },
+    {
+      "op": "joystick.remove",
+      "features": [
+        "joysticks"
+      ]
+    },
+    {
+      "op": "key",
+      "features": [
+        "keyframes"
+      ]
+    },
+    {
+      "op": "library.capture",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "library.detach",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "library.import",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "library.place",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "library.remove",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "library.rename",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "library.soundVolume",
+      "features": [
+        "sound",
+        "library"
+      ]
+    },
+    {
+      "op": "library.updateSource",
+      "features": [
+        "library"
+      ]
+    },
+    {
+      "op": "lighting.key",
+      "features": [
+        "lighting"
+      ]
+    },
+    {
+      "op": "lighting.node",
+      "features": [
+        "lighting"
+      ]
+    },
+    {
+      "op": "lighting.settings",
+      "features": [
+        "lighting"
+      ]
+    },
+    {
+      "op": "mesh.addVertex",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.bind",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.contour",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.create",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.edge",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.enabled",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.generate",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.key",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.paste",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.positions",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.remove",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.removeVertex",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.unbind",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.vertex",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "mesh.weights",
+      "features": [
+        "meshes"
+      ]
+    },
+    {
+      "op": "model.add",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "model.remove",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "model.update",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "motion.clip",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.contact",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.follow",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.layer",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.look",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.morph",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.pose",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.remove",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.smear",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.targetKey",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.update",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "motion.weight",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "node.add",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "node.connect",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "node.output",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "node.remove",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "node.update",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "noodle.bake",
+      "features": [
+        "noodle"
+      ]
+    },
+    {
+      "op": "noodle.bind",
+      "features": [
+        "noodle"
+      ]
+    },
+    {
+      "op": "noodle.key",
+      "features": [
+        "noodle"
+      ]
+    },
+    {
+      "op": "noodle.remove",
+      "features": [
+        "noodle"
+      ]
+    },
+    {
+      "op": "noodle.set",
+      "features": [
+        "noodle"
+      ]
+    },
+    {
+      "op": "ownership.bake",
+      "features": [
+        "ownership"
+      ]
+    },
+    {
+      "op": "ownership.bakeSettings",
+      "features": [
+        "ownership"
+      ]
+    },
+    {
+      "op": "ownership.handover",
+      "features": [
+        "ownership"
+      ]
+    },
+    {
+      "op": "ownership.key",
+      "features": [
+        "ownership"
+      ]
+    },
+    {
+      "op": "ownership.removeBake",
+      "features": [
+        "ownership"
+      ]
+    },
+    {
+      "op": "parameter.key",
+      "features": [
+        "keyframes",
+        "particles"
+      ]
+    },
+    {
+      "op": "preset",
+      "features": [
+        "motion"
+      ]
+    },
+    {
+      "op": "preview.reference",
+      "features": [
+        "preview"
+      ]
+    },
+    {
+      "op": "preview.removeReference",
+      "features": [
+        "preview"
+      ]
+    },
+    {
+      "op": "preview.scenario",
+      "features": [
+        "preview"
+      ]
+    },
+    {
+      "op": "procedural.attachment",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.bind",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.chain",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.connection",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.detach",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.disconnect",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.driver",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.gait",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.impulse",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.particle",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.primitive",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.remove",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.replace",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.settings",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.support",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.surface",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "procedural.unbind",
+      "features": [
+        "procedural"
+      ]
+    },
+    {
+      "op": "project.patch",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "project.rename",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "project.replace",
+      "features": [
+        "projects"
+      ]
+    },
+    {
+      "op": "recording.apply",
+      "features": [
+        "recording"
+      ]
+    },
+    {
+      "op": "recording.simplify",
+      "features": [
+        "recording"
+      ]
+    },
+    {
+      "op": "scene3d.asset.add",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.asset.update",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.clip.add",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.clip.remove",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.clip.update",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.event.add",
+      "features": [
+        "facial3d",
+        "behaviours"
+      ]
+    },
+    {
+      "op": "scene3d.event.remove",
+      "features": [
+        "facial3d",
+        "behaviours"
+      ]
+    },
+    {
+      "op": "scene3d.event.update",
+      "features": [
+        "facial3d",
+        "behaviours"
+      ]
+    },
+    {
+      "op": "scene3d.key",
+      "features": [
+        "facial3d",
+        "scene3d",
+        "lighting"
+      ]
+    },
+    {
+      "op": "scene3d.material.add",
+      "features": [
+        "materials"
+      ]
+    },
+    {
+      "op": "scene3d.material.remove",
+      "features": [
+        "materials"
+      ]
+    },
+    {
+      "op": "scene3d.material.update",
+      "features": [
+        "materials"
+      ]
+    },
+    {
+      "op": "scene3d.new",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.node.add",
+      "features": [
+        "scene3d",
+        "solids"
+      ]
+    },
+    {
+      "op": "scene3d.node.remove",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.node.update",
+      "features": [
+        "n-slicing",
+        "facial3d",
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.procedural.build",
+      "features": [
+        "procedural3d"
+      ]
+    },
+    {
+      "op": "scene3d.replace",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.settings",
+      "features": [
+        "scene3d"
+      ]
+    },
+    {
+      "op": "scene3d.surface.remove",
+      "features": [
+        "materials"
+      ]
+    },
+    {
+      "op": "scene3d.surface.set",
+      "features": [
+        "materials"
+      ]
+    },
+    {
+      "op": "settings",
+      "features": [
+        "compositing"
+      ]
+    },
+    {
+      "op": "shape",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "shapeLab.bake",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "shapeLab.create",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "shapeLab.delete",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "shapeLab.key",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "shapeLab.part",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "shapeLab.removePart",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "shapeLab.settings",
+      "features": [
+        "shape-lab"
+      ]
+    },
+    {
+      "op": "solo.create",
+      "features": [
+        "solos"
+      ]
+    },
+    {
+      "op": "solo.default",
+      "features": [
+        "solos"
+      ]
+    },
+    {
+      "op": "solo.disable",
+      "features": [
+        "solos"
+      ]
+    },
+    {
+      "op": "solo.enable",
+      "features": [
+        "solos"
+      ]
+    },
+    {
+      "op": "solo.key",
+      "features": [
+        "solos"
+      ]
+    },
+    {
+      "op": "solo.wrap",
+      "features": [
+        "solos"
+      ]
+    },
+    {
+      "op": "speech.chunk",
+      "features": [
+        "speech"
+      ]
+    },
+    {
+      "op": "speech.place",
+      "features": [
+        "speech"
+      ]
+    },
+    {
+      "op": "speech.remove",
+      "features": [
+        "speech"
+      ]
+    },
+    {
+      "op": "speech.rig",
+      "features": [
+        "speech"
+      ]
+    },
+    {
+      "op": "stateMachine.put",
+      "features": [
+        "state-machines"
+      ]
+    },
+    {
+      "op": "stateMachine.remove",
+      "features": [
+        "state-machines"
+      ]
+    },
+    {
+      "op": "text",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "timeline.edit",
+      "features": [
+        "timeline"
+      ]
+    },
+    {
+      "op": "timing.marker",
+      "features": [
+        "timeline"
+      ]
+    },
+    {
+      "op": "timing.remove",
+      "features": [
+        "timeline"
+      ]
+    },
+    {
+      "op": "vector.add",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.boolean",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.clip",
+      "features": [
+        "vector-art",
+        "clipping"
+      ]
+    },
+    {
+      "op": "vector.create",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.delete",
+      "features": [
+        "vector-art",
+        "clipping"
+      ]
+    },
+    {
+      "op": "vector.duplicate",
+      "features": [
+        "vector-art",
+        "clipping"
+      ]
+    },
+    {
+      "op": "vector.init",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.key",
+      "features": [
+        "vector-art",
+        "trim-path"
+      ]
+    },
+    {
+      "op": "vector.order",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.settings",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.swatch",
+      "features": [
+        "vector-art"
+      ]
+    },
+    {
+      "op": "vector.update",
+      "features": [
+        "vector-art",
+        "trim-path",
+        "clipping"
+      ]
+    },
+    {
+      "op": "visual",
+      "features": [
+        "compositing"
+      ]
+    }
+  ]
+}
